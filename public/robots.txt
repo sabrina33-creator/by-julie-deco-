@@ -1,3 +1,33 @@
-# https://www.robotstxt.org/robotstxt.html
+# Loya Conciergerie — robots.txt
+
+# Allow all crawlers including AI bots
 User-agent: *
 Disallow:
+
+# Allow AI search and citation bots explicitly
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+# Sitemap
+Sitemap: https://loya-conciergerie.fr/sitemap.xml
