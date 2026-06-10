@@ -330,7 +330,7 @@ function PageAccueil() {
         </FadeIn>
         <FadeIn delay={0.15}>
           <h1 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(40px,6.5vw,62px)", fontWeight: 700, color: C.white, lineHeight: 1.1, marginBottom: 20 }}>
-            Jusqu'à +40% de revenus locatifs<br/>à <span style={{ color: "#D4956B", fontStyle: "italic" }}>Bordeaux</span>. Sans rien gérer.
+            Vos revenus locatifs<br/>à <span style={{ color: "#D4956B", fontStyle: "italic" }}>Bordeaux</span>. Sans rien gérer.
           </h1>
         </FadeIn>
         <FadeIn delay={0.3}>
