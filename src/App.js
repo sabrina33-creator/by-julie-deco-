@@ -230,6 +230,7 @@ function Header({ page, setPage }) {
         <nav style={{ display: "flex", alignItems: "center", gap: 20 }}>
           {links.map(n => (<button key={n.id} type="button" onClick={() => goTo(n.id)} className="loya-nav-link" style={{ fontSize: 13, fontWeight: 500, cursor: "pointer", color: page === n.id ? C.terra : scrolled ? C.darkSoft : C.white, border: "none", borderBottom: page === n.id ? `2px solid ${C.terra}` : "2px solid transparent", padding: "14px 8px 12px", background: "transparent", transition: "color 0.3s, border-color 0.3s", whiteSpace: "nowrap", textShadow: scrolled ? "none" : "0 1px 4px rgba(0,0,0,0.4)" }}>{n.label}</button>))}
           <Btn href={PHONE} onClick={() => track('generate_lead', {method:'phone',location:'header'})} bg={C.sage} style={{ padding: "9px 16px", fontSize: 13 }}><Ico.Phone s={14}/> <span className="btn-label">Appeler</span></Btn>
+          <Btn href={WHATSAPP} onClick={() => track('generate_lead', {method:'whatsapp',location:'header'})} bg="#25D366" style={{ padding: "9px 16px", fontSize: 13 }}><Ico.Whatsapp s={14}/> <span className="btn-label">WhatsApp</span></Btn>
         </nav>
       </div>
       <style>{`@media(max-width:480px){.btn-label{display:none}}`}</style>
@@ -333,7 +334,8 @@ function PageAccueil({ setPage }) {
         </FadeIn>
         <FadeIn delay={0.45}>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
-            <Btn href={PHONE} onClick={() => track('generate_lead', {method:'phone',location:'hero'})} bg={C.sage} style={{ boxShadow: "0 4px 20px rgba(122,139,111,0.4)" }}><Ico.Phone/> Appeler maintenant</Btn>
+            <Btn href={PHONE} onClick={() => track('generate_lead', {method:'phone',location:'hero'})} bg={C.sage} style={{ boxShadow: "0 4px 20px rgba(122,139,111,0.4)" }}><Ico.Phone/> Appeler</Btn>
+            <Btn href={WHATSAPP} onClick={() => track('generate_lead', {method:'whatsapp',location:'hero'})} bg="#25D366" style={{ boxShadow: "0 4px 20px rgba(37,211,102,0.4)" }}><Ico.Whatsapp/> WhatsApp</Btn>
             <Btn onClick={() => { track('generate_lead', {method:'contact_page',location:'hero'}); setPage("contact"); window.scrollTo({ top: 0 }); }} bg={C.terra} style={{ boxShadow: "0 4px 20px rgba(184,115,51,0.4)" }}><Ico.Mail/> Estimation gratuite</Btn>
           </div>
         </FadeIn>
