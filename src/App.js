@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import logoSvg from "./logo.svg";
 import bxPhoto from "./bx.jpg";
 import chateau from "./chateau.jpg" ;
@@ -211,10 +212,13 @@ function Btn({ href, onClick, children, bg, color = C.white, border, style = {} 
 }
 
 // ══════════ HEADER ══════════
-function Header({ page, setPage }) {
+function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
-  const goTo = (p) => { setPage(p); window.scrollTo({ top: 0 }); };
+  const goTo = (p) => { navigate(p === "accueil" ? "/" : "/" + p); window.scrollTo({ top: 0 }); };
+  const isActive = (id) => id === "accueil" ? location.pathname === "/" : location.pathname === "/" + id;
   const links = [{ id: "accueil", label: "Accueil" }, { id: "services", label: "Services" }, { id: "contact", label: "Contact" }];
 
   return (
@@ -228,7 +232,7 @@ function Header({ page, setPage }) {
           </div>
         </button>
         <nav style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          {links.map(n => (<button key={n.id} type="button" onClick={() => goTo(n.id)} className="loya-nav-link" style={{ fontSize: 13, fontWeight: 500, cursor: "pointer", color: page === n.id ? C.terra : scrolled ? C.darkSoft : C.white, border: "none", borderBottom: page === n.id ? `2px solid ${C.terra}` : "2px solid transparent", padding: "14px 8px 12px", background: "transparent", transition: "color 0.3s, border-color 0.3s", whiteSpace: "nowrap", textShadow: scrolled ? "none" : "0 1px 4px rgba(0,0,0,0.4)" }}>{n.label}</button>))}
+          {links.map(n => (<button key={n.id} type="button" onClick={() => goTo(n.id)} className="loya-nav-link" style={{ fontSize: 13, fontWeight: 500, cursor: "pointer", color: isActive(n.id) ? C.terra : scrolled ? C.darkSoft : C.white, border: "none", borderBottom: isActive(n.id) ? `2px solid ${C.terra}` : "2px solid transparent", padding: "14px 8px 12px", background: "transparent", transition: "color 0.3s, border-color 0.3s", whiteSpace: "nowrap", textShadow: scrolled ? "none" : "0 1px 4px rgba(0,0,0,0.4)" }}>{n.label}</button>))}
           <Btn href={PHONE} onClick={() => track('generate_lead', {method:'phone',location:'header'})} bg={C.sage} style={{ padding: "9px 16px", fontSize: 13 }}><Ico.Phone s={14}/> <span className="btn-label">Appeler</span></Btn>
           <Btn href={WHATSAPP} onClick={() => track('generate_lead', {method:'whatsapp',location:'header'})} bg="#25D366" style={{ padding: "9px 16px", fontSize: 13 }}><Ico.Whatsapp s={14}/> <span className="btn-label">WhatsApp</span></Btn>
         </nav>
@@ -239,7 +243,7 @@ function Header({ page, setPage }) {
 }
 
 // ══════════ STICKY CTA MOBILE ══════════
-function StickyCTA({ setPage }) {
+function StickyCTA() {
   return (
     <div>
       <div className="sticky-cta" style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 999, background: "rgba(245,240,232,0.97)", backdropFilter: "blur(12px)", borderTop: `1px solid ${C.beige}`, paddingTop: "10px", paddingLeft: "16px", paddingRight: "16px", paddingBottom: "max(10px, env(safe-area-inset-bottom))", display: "none", gap: 10 }}>
@@ -252,8 +256,9 @@ function StickyCTA({ setPage }) {
 }
 
 // ══════════ FOOTER ══════════
-function Footer({ setPage }) {
-  const goTo = (p) => { setPage(p); window.scrollTo({ top: 0 }); };
+function Footer() {
+  const navigate = useNavigate();
+  const goTo = (p) => { navigate(p === "accueil" ? "/" : "/" + p); window.scrollTo({ top: 0 }); };
   return (
     <footer style={{ background: C.dark, padding: "64px 24px 32px" }}>
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
@@ -294,7 +299,8 @@ function FaqItem({ q, a }) {
 }
 
 // ══════════ PAGE ACCUEIL ══════════
-function PageAccueil({ setPage }) {
+function PageAccueil() {
+  const navigate = useNavigate();
   const problemes = [
     { icon: <Ico.Clock s={24}/>, title: "Gestion chronophage", desc: "Annonces, check-ins, ménage, messages à toute heure... Gérer un Airbnb à Bordeaux, c'est un second emploi non rémunéré." },
     { icon: <Ico.AlertCircle s={24}/>, title: "Vacance locative", desc: "Chaque nuit vide, c'est un loyer perdu. Sans bonne visibilité, votre calendrier reste trop souvent au rouge." },
@@ -336,7 +342,7 @@ function PageAccueil({ setPage }) {
           <div style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
             <Btn href={PHONE} onClick={() => track('generate_lead', {method:'phone',location:'hero'})} bg={C.sage} style={{ boxShadow: "0 4px 20px rgba(122,139,111,0.4)" }}><Ico.Phone/> Appeler</Btn>
             <Btn href={WHATSAPP} onClick={() => track('generate_lead', {method:'whatsapp',location:'hero'})} bg="#25D366" style={{ boxShadow: "0 4px 20px rgba(37,211,102,0.4)" }}><Ico.Whatsapp/> WhatsApp</Btn>
-            <Btn onClick={() => { track('generate_lead', {method:'contact_page',location:'hero'}); setPage("contact"); window.scrollTo({ top: 0 }); }} bg={C.terra} style={{ boxShadow: "0 4px 20px rgba(184,115,51,0.4)" }}><Ico.Mail/> Estimation gratuite</Btn>
+            <Btn onClick={() => { track('generate_lead', {method:'contact_page',location:'hero'}); navigate("/contact"); window.scrollTo({ top: 0 }); }} bg={C.terra} style={{ boxShadow: "0 4px 20px rgba(184,115,51,0.4)" }}><Ico.Mail/> Estimation gratuite</Btn>
           </div>
         </FadeIn>
       </div>
@@ -518,7 +524,7 @@ function PageAccueil({ setPage }) {
         <p style={{ fontSize: 16, color: "rgba(255,255,255,0.85)", maxWidth: 460, margin: "0 auto 32px" }}>Sous-location ou conciergerie, on vous aide à choisir en 15 minutes. Premier échange gratuit, sans engagement.</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center" }}>
           <Btn href={PHONE} onClick={() => track('generate_lead', {method:'phone',location:'cta_services'})} bg={C.white} color={C.sageDark}><Ico.Phone/> Appeler maintenant</Btn>
-          <Btn onClick={() => { track('generate_lead', {method:'contact_page',location:'services'}); setPage("contact"); window.scrollTo({ top: 0 }); }} bg="transparent" color={C.white} border="2px solid rgba(255,255,255,0.5)" style={{ boxShadow: "none" }}><Ico.Mail/> Nous contacter</Btn>
+          <Btn onClick={() => { track('generate_lead', {method:'contact_page',location:'services'}); navigate("/contact"); window.scrollTo({ top: 0 }); }} bg="transparent" color={C.white} border="2px solid rgba(255,255,255,0.5)" style={{ boxShadow: "none" }}><Ico.Mail/> Nous contacter</Btn>
         </div>
       </FadeIn>
     </section>
@@ -526,7 +532,8 @@ function PageAccueil({ setPage }) {
 }
 
 // ══════════ PAGE SERVICES ══════════
-function PageServices({ setPage }) {
+function PageServices() {
+  const navigate = useNavigate();
   const avSubloc = [
     "Loyer garanti chaque mois",
     "Aucun frais de gestion ou de saisonnalité",
@@ -645,7 +652,7 @@ function PageServices({ setPage }) {
         <p style={{ fontSize: 16, color: "rgba(255,255,255,0.85)", maxWidth: 460, margin: "0 auto 32px" }}>Sous-location professionnelle ou conciergerie Bordeaux : on vous guide vers la meilleure option. Premier échange gratuit.</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center" }}>
           <Btn href={PHONE} onClick={() => track('generate_lead', {method:'phone',location:'cta_services'})} bg={C.white} color={C.sageDark}><Ico.Phone/> Appeler maintenant</Btn>
-          <Btn onClick={() => { track('generate_lead', {method:'contact_page',location:'services'}); setPage("contact"); window.scrollTo({ top: 0 }); }} bg="transparent" color={C.white} border="2px solid rgba(255,255,255,0.5)" style={{ boxShadow: "none" }}><Ico.Mail/> Nous contacter</Btn>
+          <Btn onClick={() => { track('generate_lead', {method:'contact_page',location:'services'}); navigate("/contact"); window.scrollTo({ top: 0 }); }} bg="transparent" color={C.white} border="2px solid rgba(255,255,255,0.5)" style={{ boxShadow: "none" }}><Ico.Mail/> Nous contacter</Btn>
         </div>
       </FadeIn>
     </section>
@@ -759,25 +766,35 @@ function PageContact() {
 }
 
 // ══════════ APP PRINCIPAL ══════════
-function App() {
-  const [page, setPage] = useState("accueil");
+function AppContent() {
+  const location = useLocation();
   useEffect(() => {
-    track('page_view', { page_title: page, page_location: window.location.href });
-  }, [page]);
+    track('page_view', { page_title: location.pathname, page_location: window.location.href });
+  }, [location.pathname]);
 
   return (
     <div style={{ paddingBottom: 70 }}>
       <GlobalStyles/>
       <ScrollProgress/>
-      <Header page={page} setPage={setPage}/>
+      <Header/>
       <main id="main-content">
-        {page === "accueil" && <PageAccueil setPage={setPage}/>}
-        {page === "services" && <PageServices setPage={setPage}/>}
-        {page === "contact" && <PageContact/>}
+        <Routes>
+          <Route path="/" element={<PageAccueil/>}/>
+          <Route path="/services" element={<PageServices/>}/>
+          <Route path="/contact" element={<PageContact/>}/>
+        </Routes>
       </main>
-      <Footer setPage={setPage}/>
-      <StickyCTA setPage={setPage}/>
+      <Footer/>
+      <StickyCTA/>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent/>
+    </BrowserRouter>
   );
 }
 
