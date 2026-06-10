@@ -21,6 +21,7 @@ const PHONE = "tel:+33783376293";
 const PHONE_DISPLAY = "+33 7 83 37 62 93";
 const EMAIL = "loya.conciergerie@gmail.com";
 const WHATSAPP = "https://wa.me/33783376293?text=Bonjour%2C%20je%20suis%20propri%C3%A9taire%20%C3%A0%20Bordeaux%20et%20je%20souhaite%20en%20savoir%20plus%20sur%20vos%20services.";
+const track = (event, params) => { if (window.gtag) window.gtag('event', event, params); };
 
 const IMG = {
   hero: interieur,
@@ -44,6 +45,10 @@ function GlobalStyles() {
       p { text-wrap: pretty; max-width: 72ch; }
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      }
+      @media (max-width: 640px) {
+        section { padding-top: 64px !important; padding-bottom: 64px !important; }
+        .steps-grid { grid-template-columns: 1fr !important; }
       }
 
       /* Scrollbar */
@@ -125,13 +130,6 @@ function GlobalStyles() {
         border-radius: 2px;
       }
 
-      /* Valeur stat hero */
-      .loya-stat-num {
-        font-family: 'Josefin Sans', sans-serif;
-        font-size: 30px; font-weight: 700; letter-spacing: -0.5px;
-        color: #D4956B; line-height: 1;
-      }
-
       /* Step circle hover */
       .loya-step-circle {
         transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease !important;
@@ -143,6 +141,13 @@ function GlobalStyles() {
       /* Hover nav header */
       .loya-nav-link { transition: color 0.25s, border-color 0.25s !important; }
       .loya-nav-link:hover { color: #D4956B !important; }
+
+      /* Focus visible — brand ring */
+      button:focus-visible, a:focus-visible {
+        outline: 2px solid #B87333;
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
     `}</style>
   );
 }
@@ -201,31 +206,30 @@ const Ico = {
 // ── Bouton CTA ──
 function Btn({ href, onClick, children, bg, color = C.white, border, style = {} }) {
   const base = { display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 28px", borderRadius: 12, fontSize: 15, fontWeight: 600, fontFamily: "'Figtree',sans-serif", cursor: "pointer", transition: "transform 0.2s", background: bg || C.sage, color, border: border || "none", boxShadow: `0 2px 12px ${bg || C.sage}30`, textDecoration: "none", ...style };
-  if (href) return <a href={href} style={base}>{children}</a>;
-  return <div onClick={onClick} style={base}>{children}</div>;
+  if (href) return <a href={href} onClick={onClick} style={base}>{children}</a>;
+  return <button type="button" onClick={onClick} style={base}>{children}</button>;
 }
 
 // ══════════ HEADER ══════════
 function Header({ page, setPage }) {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => { const h = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
-  const goTo = (p) => { setPage(p); setMenuOpen(false); window.scrollTo({ top: 0 }); };
+  const goTo = (p) => { setPage(p); window.scrollTo({ top: 0 }); };
   const links = [{ id: "accueil", label: "Accueil" }, { id: "services", label: "Services" }, { id: "contact", label: "Contact" }];
 
   return (
     <header style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000, background: scrolled ? "rgba(245,240,232,0.96)" : "transparent", backdropFilter: scrolled ? "blur(14px)" : "none", borderBottom: scrolled ? `1px solid ${C.beige}` : "1px solid transparent", transition: "all 0.4s" }}>
       <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
-        <div onClick={() => goTo("accueil")} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 13 }}>
-          <img src={logoSvg} alt="Loya" style={{ height: 42, width: 42, flexShrink: 0, borderRadius: 10, display: "block" }} />
+        <button type="button" onClick={() => goTo("accueil")} aria-label="Accueil Loya" style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 13, background: "transparent", border: "none", padding: 0 }}>
+          <img src={logoSvg} alt="" aria-hidden="true" style={{ height: 42, width: 42, flexShrink: 0, borderRadius: 10, display: "block" }} />
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
             <span style={{ fontFamily: "'Josefin Sans', sans-serif", fontSize: 22, fontWeight: 800, color: scrolled ? C.dark : C.white, letterSpacing: "-0.2px", lineHeight: 1.1, textShadow: scrolled ? "none" : "0 1px 6px rgba(0,0,0,0.4)" }}>Loya</span>
             <span style={{ fontFamily: "'Figtree', sans-serif", fontSize: 9.5, fontWeight: 600, color: scrolled ? C.sageDark : "rgba(255,255,255,0.75)", letterSpacing: "2.8px", textTransform: "uppercase", lineHeight: 1, marginTop: 4, textShadow: scrolled ? "none" : "0 1px 3px rgba(0,0,0,0.4)" }}>Conciergerie · Bordeaux</span>
           </div>
-        </div>
+        </button>
         <nav style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          {links.map(n => (<span key={n.id} onClick={() => goTo(n.id)} style={{ fontSize: 13, fontWeight: 500, cursor: "pointer", color: page === n.id ? C.terra : scrolled ? C.darkSoft : C.white, borderBottom: page === n.id ? `2px solid ${C.terra}` : "2px solid transparent", paddingBottom: 4, transition: "all 0.3s", whiteSpace: "nowrap", textShadow: scrolled ? "none" : "0 1px 4px rgba(0,0,0,0.4)" }}>{n.label}</span>))}
-          <Btn href={PHONE} bg={C.sage} style={{ padding: "9px 16px", fontSize: 13 }}><Ico.Phone s={14}/> <span className="btn-label">Appeler</span></Btn>
+          {links.map(n => (<button key={n.id} type="button" onClick={() => goTo(n.id)} className="loya-nav-link" style={{ fontSize: 13, fontWeight: 500, cursor: "pointer", color: page === n.id ? C.terra : scrolled ? C.darkSoft : C.white, border: "none", borderBottom: page === n.id ? `2px solid ${C.terra}` : "2px solid transparent", padding: "14px 8px 12px", background: "transparent", transition: "color 0.3s, border-color 0.3s", whiteSpace: "nowrap", textShadow: scrolled ? "none" : "0 1px 4px rgba(0,0,0,0.4)" }}>{n.label}</button>))}
+          <Btn href={PHONE} onClick={() => track('generate_lead', {method:'phone',location:'header'})} bg={C.sage} style={{ padding: "9px 16px", fontSize: 13 }}><Ico.Phone s={14}/> <span className="btn-label">Appeler</span></Btn>
         </nav>
       </div>
       <style>{`@media(max-width:480px){.btn-label{display:none}}`}</style>
@@ -237,9 +241,9 @@ function Header({ page, setPage }) {
 function StickyCTA({ setPage }) {
   return (
     <div>
-      <div className="sticky-cta" style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 999, background: "rgba(245,240,232,0.97)", backdropFilter: "blur(12px)", borderTop: `1px solid ${C.beige}`, padding: "10px 16px", display: "none", gap: 10 }}>
-        <Btn href={PHONE} bg={C.sage} style={{ flex: 1, justifyContent: "center", padding: "13px 6px", fontSize: 14, borderRadius: 10 }}><Ico.Phone s={15}/> Appeler</Btn>
-        <Btn href={WHATSAPP} bg="#25D366" style={{ flex: 1, justifyContent: "center", padding: "13px 6px", fontSize: 14, borderRadius: 10 }}><Ico.Whatsapp s={15}/> WhatsApp</Btn>
+      <div className="sticky-cta" style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 999, background: "rgba(245,240,232,0.97)", backdropFilter: "blur(12px)", borderTop: `1px solid ${C.beige}`, paddingTop: "10px", paddingLeft: "16px", paddingRight: "16px", paddingBottom: "max(10px, env(safe-area-inset-bottom))", display: "none", gap: 10 }}>
+        <Btn href={PHONE} onClick={() => track('generate_lead', {method:'phone',location:'sticky_cta'})} bg={C.sage} style={{ flex: 1, justifyContent: "center", padding: "13px 6px", fontSize: 14, borderRadius: 10 }}><Ico.Phone s={15}/> Appeler</Btn>
+        <Btn href={WHATSAPP} onClick={() => track('generate_lead', {method:'whatsapp',location:'sticky_cta'})} bg="#25D366" style={{ flex: 1, justifyContent: "center", padding: "13px 6px", fontSize: 14, borderRadius: 10 }}><Ico.Whatsapp s={15}/> WhatsApp</Btn>
       </div>
       <style>{`@media(max-width:768px){.sticky-cta{display:flex!important}}`}</style>
     </div>
@@ -259,14 +263,14 @@ function Footer({ setPage }) {
           </div>
           <div style={{ flex: "1 1 140px" }}>
             <h4 style={{ fontSize: 12, fontWeight: 700, color: C.cream, letterSpacing: 1.5, marginBottom: 18, textTransform: "uppercase" }}>Navigation</h4>
-            {["accueil","services","contact"].map(p => (<div key={p} onClick={() => goTo(p)} style={{ fontSize: 14, color: C.sand, cursor: "pointer", marginBottom: 12 }}>{p.charAt(0).toUpperCase()+p.slice(1)}</div>))}
+            {["accueil","services","contact"].map(p => (<button key={p} type="button" onClick={() => goTo(p)} style={{ fontSize: 14, color: C.sand, cursor: "pointer", marginBottom: 12, background: "transparent", border: "none", padding: 0, display: "block", textAlign: "left", fontFamily: "'Figtree',sans-serif" }}>{p.charAt(0).toUpperCase()+p.slice(1)}</button>))}
           </div>
           <div style={{ flex: "1 1 200px" }}>
             <h4 style={{ fontSize: 12, fontWeight: 700, color: C.cream, letterSpacing: 1.5, marginBottom: 18, textTransform: "uppercase" }}>Contact</h4>
             <p style={{ fontSize: 14, color: C.sand, lineHeight: 2 }}>Bordeaux & alentours<br/>{PHONE_DISPLAY}<br/>{EMAIL}</p>
           </div>
         </div>
-        <div style={{ borderTop: "1px solid rgba(196,179,154,0.15)", paddingTop: 24, textAlign: "center", fontSize: 12, color: "rgba(196,179,154,0.4)" }}>© 2026 Loya — Tous droits réservés</div>
+        <div style={{ borderTop: "1px solid rgba(196,179,154,0.15)", paddingTop: 24, textAlign: "center", fontSize: 12, color: "rgba(196,179,154,0.4)" }}>© 2026 Loya · Tous droits réservés</div>
       </div>
     </footer>
   );
@@ -276,14 +280,14 @@ function Footer({ setPage }) {
 function FaqItem({ q, a }) {
   const [open, setOpen] = useState(false);
   return (
-    <div onClick={() => setOpen(!open)} className="loya-faq" style={{ background: C.white, borderRadius: 16, padding: "20px 24px", cursor: "pointer", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", border: `1px solid ${open ? C.terra+"40" : "transparent"}` }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
+    <div className="loya-faq" style={{ background: C.white, borderRadius: 16, boxShadow: "0 2px 12px rgba(0,0,0,0.04)", border: `1px solid ${open ? C.terra+"40" : "transparent"}`, overflow: "hidden" }}>
+      <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, padding: "20px 24px", cursor: "pointer", background: "transparent", border: "none", textAlign: "left", minHeight: 44 }}>
         <span style={{ fontSize: 16, fontWeight: 600, color: C.dark, fontFamily: "'Figtree',sans-serif" }}>{q}</span>
-        <div style={{ minWidth: 20, color: C.terra, transform: open ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }}>
+        <div style={{ minWidth: 20, color: C.terra, transform: open ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s", flexShrink: 0 }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-      </div>
-      {open && <p style={{ fontSize: 14, color: C.darkSoft, lineHeight: 1.75, marginTop: 14, paddingTop: 14, borderTop: `1px solid ${C.beige}` }}>{a}</p>}
+      </button>
+      {open && <p style={{ fontSize: 14, color: C.darkSoft, lineHeight: 1.75, margin: "0 24px 20px", paddingTop: 14, borderTop: `1px solid ${C.beige}` }}>{a}</p>}
     </div>
   );
 }
@@ -318,7 +322,7 @@ function PageAccueil({ setPage }) {
           </div>
         </FadeIn>
         <FadeIn delay={0.15}>
-          <h1 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(34px,6vw,54px)", fontWeight: 700, color: C.white, lineHeight: 1.15, marginBottom: 20 }}>
+          <h1 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(40px,6.5vw,62px)", fontWeight: 700, color: C.white, lineHeight: 1.1, marginBottom: 20 }}>
             Jusqu'à +40% de revenus locatifs<br/>à <span style={{ color: "#D4956B", fontStyle: "italic" }}>Bordeaux</span>. Sans rien gérer.
           </h1>
         </FadeIn>
@@ -329,40 +333,25 @@ function PageAccueil({ setPage }) {
         </FadeIn>
         <FadeIn delay={0.45}>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
-            <Btn href={PHONE} bg={C.sage} style={{ boxShadow: "0 4px 20px rgba(122,139,111,0.4)" }}><Ico.Phone/> Appeler maintenant</Btn>
-            <Btn onClick={() => { setPage("contact"); window.scrollTo({ top: 0 }); }} bg={C.terra} style={{ boxShadow: "0 4px 20px rgba(184,115,51,0.4)" }}><Ico.Mail/> Estimation gratuite</Btn>
-          </div>
-        </FadeIn>
-        <FadeIn delay={0.65}>
-          <div style={{ display: "flex", flexWrap: "wrap", marginTop: 48, borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: 28, gap: 0 }}>
-            {[
-              { num: "+40%", label: "Revenus en moyenne" },
-              { num: "7 jrs", label: "Pour démarrer" },
-              { num: "100%", label: "Gestion prise en charge" },
-            ].map((s, i) => (
-              <div key={i} style={{ flex: "1 1 100px", textAlign: "center", padding: "0 16px", borderRight: i < 2 ? "1px solid rgba(255,255,255,0.12)" : "none" }}>
-                <div className="loya-stat-num">{s.num}</div>
-                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", textTransform: "uppercase", letterSpacing: 1.5, marginTop: 6 }}>{s.label}</div>
-              </div>
-            ))}
+            <Btn href={PHONE} onClick={() => track('generate_lead', {method:'phone',location:'hero'})} bg={C.sage} style={{ boxShadow: "0 4px 20px rgba(122,139,111,0.4)" }}><Ico.Phone/> Appeler maintenant</Btn>
+            <Btn onClick={() => { track('generate_lead', {method:'contact_page',location:'hero'}); setPage("contact"); window.scrollTo({ top: 0 }); }} bg={C.terra} style={{ boxShadow: "0 4px 20px rgba(184,115,51,0.4)" }}><Ico.Mail/> Estimation gratuite</Btn>
           </div>
         </FadeIn>
       </div>
     </section>
 
     {/* ── SECTION PROBLÈMES ── */}
-    <section style={{ padding: "100px 24px", background: C.warmWhite }}>
+    <section style={{ padding: "100px 24px", background: "#1A1A1A" }}>
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <FadeIn><div style={{ textAlign: "center", marginBottom: 56 }}>
-          <span style={{ fontSize: 12, color: C.terra, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Vous êtes propriétaire ?</span>
-          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 12 }}>Ça vous <span style={{ color: C.terra, fontStyle: "italic" }}>parle ?</span></h2>
+          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.cream, marginTop: 0 }}>Ça vous <span style={{ color: C.terra, fontStyle: "italic" }}>parle ?</span></h2>
         </div></FadeIn>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))", gap: 20 }}>
           {problemes.map((p,i) => (
-            <FadeIn key={i} delay={i*0.1}><div style={{ background: C.white, borderRadius: 20, padding: "32px 24px", boxShadow: "0 2px 16px rgba(0,0,0,0.04)", borderLeft: `4px solid ${C.terra}30` }}>
+            <FadeIn key={i} delay={i*0.1}><div style={{ background: "rgba(255,255,255,0.06)", borderRadius: 14, padding: "32px 24px", border: "1px solid rgba(255,255,255,0.08)" }}>
               <div style={{ color: C.terra, marginBottom: 16 }}>{p.icon}</div>
-              <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 18, fontWeight: 600, color: C.dark, marginBottom: 8 }}>{p.title}</h3>
-              <p style={{ fontSize: 14, color: C.darkSoft, lineHeight: 1.6 }}>{p.desc}</p>
+              <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 18, fontWeight: 600, color: C.cream, marginBottom: 8 }}>{p.title}</h3>
+              <p style={{ fontSize: 14, color: "rgba(255,255,255,0.68)", lineHeight: 1.65 }}>{p.desc}</p>
             </div></FadeIn>
           ))}
         </div>
@@ -374,12 +363,11 @@ function PageAccueil({ setPage }) {
       <div style={{ maxWidth: 1000, margin: "0 auto", display: "flex", flexWrap: "wrap", gap: 48, alignItems: "center" }}>
         <FadeIn style={{ flex: "1 1 420px" }}>
           <div className="loya-imgz" style={{ borderRadius: 20, overflow: "hidden", position: "relative" }}>
-            <img src={IMG.bordeaux} alt="Bordeaux, Place de la Bourse" style={{ width: "100%", height: 400, objectFit: "cover", display: "block" }}/>
+            <img src={IMG.bordeaux} alt="Bordeaux, Place de la Bourse" loading="lazy" style={{ width: "100%", height: 400, objectFit: "cover", display: "block" }}/>
           </div>
         </FadeIn>
         <FadeIn delay={0.2} style={{ flex: "1 1 360px" }}>
-          <span style={{ fontSize: 12, color: C.sage, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Pourquoi Bordeaux</span>
-          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(26px,4vw,34px)", fontWeight: 700, color: C.dark, lineHeight: 1.25, marginTop: 12, marginBottom: 16 }}>
+          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(26px,4vw,34px)", fontWeight: 700, color: C.dark, lineHeight: 1.25, marginTop: 0, marginBottom: 16 }}>
             Une ville qui <span style={{ color: C.terra, fontStyle: "italic" }}>attire</span>
           </h2>
           <p style={{ fontSize: 16, color: C.darkSoft, lineHeight: 1.8, marginBottom: 16 }}>
@@ -393,17 +381,16 @@ function PageAccueil({ setPage }) {
     </section>
 
     {/* ── SECTION 2 SERVICES ── */}
-    <section style={{ padding: "100px 24px", background: C.warmWhite }}>
+    <section style={{ padding: "100px 24px", background: "#FFFFFF" }}>
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-        <FadeIn><div style={{ textAlign: "center", marginBottom: 56 }}>
-          <span style={{ fontSize: 12, color: C.sage, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Nos solutions</span>
-          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 12 }}>Deux offres, <span style={{ color: C.terra, fontStyle: "italic" }}>un même objectif</span></h2>
-          <p style={{ fontSize: 16, color: C.darkSoft, marginTop: 12, maxWidth: 500, margin: "12px auto 0" }}>Gagnez plus, gérez moins. Choisissez ce qui vous correspond.</p>
+        <FadeIn><div style={{ marginBottom: 56 }}>
+          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 0, marginBottom: 12 }}>Deux offres, <span style={{ color: C.terra, fontStyle: "italic" }}>un même objectif</span></h2>
+          <p style={{ fontSize: 16, color: C.darkSoft, margin: 0 }}>Gagnez plus, gérez moins. Choisissez ce qui vous correspond.</p>
         </div></FadeIn>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))", gap: 28 }}>
           {/* Sous-location */}
           <FadeIn delay={0.1}>
-            <div className="loya-card" style={{ background: C.white, borderRadius: 24, padding: "40px 32px", boxShadow: "0 4px 24px rgba(0,0,0,0.05)", height: "100%", borderTop: `4px solid ${C.terra}` }}>
+            <div className="loya-card" style={{ background: C.white, borderRadius: 14, padding: "40px 32px", boxShadow: "0 4px 24px rgba(0,0,0,0.05)", height: "100%", borderTop: `4px solid ${C.terra}` }}>
               <div style={{ width: 56, height: 56, borderRadius: 16, background: `${C.terra}12`, display: "flex", alignItems: "center", justifyContent: "center", color: C.terra, marginBottom: 20 }}><Ico.Home s={28}/></div>
               <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 22, fontWeight: 700, color: C.dark, marginBottom: 12 }}>Sous-location professionnelle Bordeaux</h3>
               <p style={{ fontSize: 15, color: C.darkSoft, lineHeight: 1.7, marginBottom: 20 }}>Un contrat, un virement fixe chaque mois. Peu importe le taux d'occupation. Votre seule responsabilité : encaisser.</p>
@@ -416,7 +403,7 @@ function PageAccueil({ setPage }) {
           </FadeIn>
           {/* Conciergerie */}
           <FadeIn delay={0.2}>
-            <div className="loya-card" style={{ background: C.white, borderRadius: 24, padding: "40px 32px", boxShadow: "0 4px 24px rgba(0,0,0,0.05)", height: "100%", borderTop: `4px solid ${C.sage}` }}>
+            <div className="loya-card" style={{ background: C.white, borderRadius: 14, padding: "40px 32px", boxShadow: "0 4px 24px rgba(0,0,0,0.05)", height: "100%", borderTop: `4px solid ${C.sage}` }}>
               <div style={{ width: 56, height: 56, borderRadius: 16, background: `${C.sage}15`, display: "flex", alignItems: "center", justifyContent: "center", color: C.sage, marginBottom: 20 }}><Ico.Key s={28}/></div>
               <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 22, fontWeight: 700, color: C.dark, marginBottom: 12 }}>Conciergerie Bordeaux</h3>
               <p style={{ fontSize: 15, color: C.darkSoft, lineHeight: 1.7, marginBottom: 20 }}>Vous gardez la main sur votre calendrier. On gère tout le reste. Résultat : votre Airbnb rapporte plus, sans vous coûter du temps.</p>
@@ -435,8 +422,7 @@ function PageAccueil({ setPage }) {
     <section style={{ padding: "100px 24px", background: C.cream }}>
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <FadeIn><div style={{ textAlign: "center", marginBottom: 64 }}>
-          <span style={{ fontSize: 12, color: C.terra, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Simple & rapide</span>
-          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 12 }}>Comment ça <span style={{ color: C.terra, fontStyle: "italic" }}>marche ?</span></h2>
+          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 0 }}>Comment ça <span style={{ color: C.terra, fontStyle: "italic" }}>marche ?</span></h2>
           <p style={{ fontSize: 16, color: C.darkSoft, marginTop: 12, maxWidth: 480, margin: "12px auto 0" }}>Trois étapes. Pas une de plus.</p>
         </div></FadeIn>
         <div style={{ position: "relative" }}>
@@ -463,46 +449,51 @@ function PageAccueil({ setPage }) {
           </div>
         </div>
         <FadeIn delay={0.5}><div style={{ textAlign: "center", marginTop: 48 }}>
-          <Btn href={PHONE} bg={C.terra} style={{ boxShadow: `0 4px 20px ${C.terra}40` }}><Ico.Phone/> Démarrer maintenant, c'est gratuit</Btn>
+          <Btn href={PHONE} onClick={() => track('generate_lead', {method:'phone',location:'cta_accueil'})} bg={C.terra} style={{ boxShadow: `0 4px 20px ${C.terra}40` }}><Ico.Phone/> Démarrer maintenant, c'est gratuit</Btn>
         </div></FadeIn>
       </div>
       <style>{`@media(max-width:640px){.steps-line{display:none!important}.steps-grid{grid-template-columns:1fr!important}}`}</style>
     </section>
 
     {/* ── SECTION VALEURS ── */}
-    <section style={{ padding: "100px 24px", background: C.warmWhite }}>
+    <section style={{ padding: "100px 24px", background: "#FFFFFF" }}>
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
-        <FadeIn><div style={{ textAlign: "center", marginBottom: 56 }}>
-          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark }}>Pourquoi les propriétaires nous <span style={{ color: C.terra, fontStyle: "italic" }}>font confiance</span></h2>
-        </div></FadeIn>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 24 }}>
+        <FadeIn>
+          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginBottom: 56 }}>
+            Pourquoi les propriétaires nous <span style={{ color: C.terra, fontStyle: "italic" }}>font confiance</span>
+          </h2>
+        </FadeIn>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(360px,1fr))", gap: "40px 64px" }}>
           {valeurs.map((v,i) => (
-            <FadeIn key={i} delay={i*0.1}><div style={{ textAlign: "center", padding: "32px 20px" }}>
-              <div style={{ width: 60, height: 60, borderRadius: "50%", background: `${C.sage}12`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 18px", color: C.sage }}>{v.icon}</div>
-              <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 18, fontWeight: 600, color: C.dark, marginBottom: 8 }}>{v.title}</h3>
-              <p style={{ fontSize: 14, color: C.darkSoft, lineHeight: 1.6 }}>{v.desc}</p>
-            </div></FadeIn>
+            <FadeIn key={i} delay={i*0.1}>
+              <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+                <div style={{ color: C.sage, flexShrink: 0, paddingTop: 3 }}>{v.icon}</div>
+                <div>
+                  <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 18, fontWeight: 600, color: C.dark, marginBottom: 8 }}>{v.title}</h3>
+                  <p style={{ fontSize: 14, color: C.darkSoft, lineHeight: 1.65, margin: 0 }}>{v.desc}</p>
+                </div>
+              </div>
+            </FadeIn>
           ))}
         </div>
       </div>
     </section>
 
     {/* ── IMAGE BIEN ── */}
-    <section style={{ padding: "0 24px" }}>
+    <section style={{ padding: "48px 24px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 16 }}>
-        <FadeIn><div className="loya-imgz" style={{ borderRadius: 20, overflow: "hidden", height: 260 }}><img src={IMG.salon2} alt="Salon cosy" style={{ width: "100%", height: "100%", objectFit: "cover" }}/></div></FadeIn>
-        <FadeIn delay={0.1}><div className="loya-imgz" style={{ borderRadius: 20, overflow: "hidden", height: 260 }}><img src={IMG.chambre} alt="Chambre lumineuse" style={{ width: "100%", height: "100%", objectFit: "cover" }}/></div></FadeIn>
-        <FadeIn delay={0.2}><div className="loya-imgz" style={{ borderRadius: 20, overflow: "hidden", height: 260 }}><img src={IMG.cozy} alt="Espace détente" style={{ width: "100%", height: "100%", objectFit: "cover" }}/></div></FadeIn>
+        <FadeIn><div className="loya-imgz" style={{ borderRadius: 20, overflow: "hidden", height: 260 }}><img src={IMG.salon2} alt="Salon cosy" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover" }}/></div></FadeIn>
+        <FadeIn delay={0.1}><div className="loya-imgz" style={{ borderRadius: 20, overflow: "hidden", height: 260 }}><img src={IMG.chambre} alt="Chambre lumineuse" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover" }}/></div></FadeIn>
+        <FadeIn delay={0.2}><div className="loya-imgz" style={{ borderRadius: 20, overflow: "hidden", height: 260 }}><img src={IMG.cozy} alt="Espace détente" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover" }}/></div></FadeIn>
       </div>
     </section>
 
     {/* ── FAQ ── */}
-    <section style={{ padding: "100px 24px", background: C.warmWhite }}>
+    <section style={{ padding: "100px 24px", background: "#FFFFFF" }}>
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
-        <FadeIn><div style={{ textAlign: "center", marginBottom: 48 }}>
-          <span style={{ fontSize: 12, color: C.sage, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Vos questions</span>
-          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 12 }}>Questions <span style={{ color: C.terra, fontStyle: "italic" }}>fréquentes</span></h2>
-        </div></FadeIn>
+        <FadeIn>
+          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 0, marginBottom: 48 }}>Questions <span style={{ color: C.terra, fontStyle: "italic" }}>fréquentes</span></h2>
+        </FadeIn>
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {[
             { q: "Combien ça coûte ?", a: "Pour la sous-location, aucun frais : nous vous versons un loyer fixe garanti chaque mois. Pour la conciergerie, nous prenons une commission sur les revenus générés. Tout est transparent, sans frais cachés. Contactez-nous pour une estimation personnalisée et gratuite." },
@@ -524,8 +515,8 @@ function PageAccueil({ setPage }) {
         <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(26px,4vw,36px)", fontWeight: 700, color: C.white, marginBottom: 16 }}>Votre bien mérite mieux que la gestion en solo.</h2>
         <p style={{ fontSize: 16, color: "rgba(255,255,255,0.85)", maxWidth: 460, margin: "0 auto 32px" }}>Sous-location ou conciergerie, on vous aide à choisir en 15 minutes. Premier échange gratuit, sans engagement.</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center" }}>
-          <Btn href={PHONE} bg={C.white} color={C.sageDark}><Ico.Phone/> Appeler maintenant</Btn>
-          <Btn onClick={() => { setPage("contact"); window.scrollTo({ top: 0 }); }} bg="transparent" color={C.white} border="2px solid rgba(255,255,255,0.5)" style={{ boxShadow: "none" }}><Ico.Mail/> Nous contacter</Btn>
+          <Btn href={PHONE} onClick={() => track('generate_lead', {method:'phone',location:'cta_services'})} bg={C.white} color={C.sageDark}><Ico.Phone/> Appeler maintenant</Btn>
+          <Btn onClick={() => { track('generate_lead', {method:'contact_page',location:'services'}); setPage("contact"); window.scrollTo({ top: 0 }); }} bg="transparent" color={C.white} border="2px solid rgba(255,255,255,0.5)" style={{ boxShadow: "none" }}><Ico.Mail/> Nous contacter</Btn>
         </div>
       </FadeIn>
     </section>
@@ -556,8 +547,7 @@ function PageServices({ setPage }) {
     {/* HERO */}
     <section style={{ padding: "140px 24px 80px", background: `linear-gradient(170deg, ${C.cream} 0%, ${C.beige} 100%)`, textAlign: "center" }}>
       <FadeIn>
-        <span style={{ fontSize: 12, color: C.sage, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Nos services</span>
-        <h1 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(32px,5vw,48px)", fontWeight: 700, color: C.dark, marginTop: 12, marginBottom: 20 }}>
+        <h1 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(32px,5vw,48px)", fontWeight: 700, color: C.dark, marginTop: 0, marginBottom: 20 }}>
           Sous-location & conciergerie<br/><span style={{ color: C.terra, fontStyle: "italic" }}>à Bordeaux</span>
         </h1>
         <p style={{ fontSize: 17, color: C.darkSoft, lineHeight: 1.7, maxWidth: 560, margin: "0 auto" }}>Deux services pensés pour les propriétaires bordelais. Simples, professionnels, adaptés à votre situation.</p>
@@ -565,7 +555,7 @@ function PageServices({ setPage }) {
     </section>
 
     {/* ── SOUS-LOCATION PRO ── */}
-    <section style={{ padding: "100px 24px", background: C.warmWhite }}>
+    <section style={{ padding: "100px 24px", background: "#FFFFFF" }}>
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <FadeIn>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 48, alignItems: "center", marginBottom: 48 }}>
@@ -584,13 +574,13 @@ function PageServices({ setPage }) {
               </p>
             </div>
             <div style={{ flex: "1 1 360px", borderRadius: 20, overflow: "hidden" }}>
-              <img src={IMG.salon} alt="Salon lumineux et soigné" style={{ width: "100%", height: 340, objectFit: "cover", display: "block" }}/>
+              <img src={IMG.salon} alt="Salon lumineux et soigné" loading="lazy" style={{ width: "100%", height: 340, objectFit: "cover", display: "block" }}/>
             </div>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.15}>
-          <div style={{ background: C.white, borderRadius: 24, padding: "40px 36px", boxShadow: "0 4px 24px rgba(0,0,0,0.04)", borderLeft: `4px solid ${C.terra}` }}>
+          <div style={{ background: C.white, borderRadius: 14, padding: "40px 36px", boxShadow: "0 4px 24px rgba(0,0,0,0.04)", borderTop: `4px solid ${C.terra}` }}>
             <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 20, fontWeight: 700, color: C.dark, marginBottom: 24 }}>Vos avantages</h3>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 14 }}>
               {avSubloc.map((a,i) => (
@@ -625,13 +615,13 @@ function PageServices({ setPage }) {
               </p>
             </div>
             <div style={{ flex: "1 1 360px", borderRadius: 20, overflow: "hidden" }}>
-              <img src={IMG.chambre} alt="Chambre confortable et soignée" style={{ width: "100%", height: 340, objectFit: "cover", display: "block" }}/>
+              <img src={IMG.chambre} alt="Chambre confortable et soignée" loading="lazy" style={{ width: "100%", height: 340, objectFit: "cover", display: "block" }}/>
             </div>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.15}>
-          <div style={{ background: C.white, borderRadius: 24, padding: "40px 36px", boxShadow: "0 4px 24px rgba(0,0,0,0.04)", borderLeft: `4px solid ${C.sage}` }}>
+          <div style={{ background: C.white, borderRadius: 14, padding: "40px 36px", boxShadow: "0 4px 24px rgba(0,0,0,0.04)", borderTop: `4px solid ${C.sage}` }}>
             <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 20, fontWeight: 700, color: C.dark, marginBottom: 24 }}>Vos avantages</h3>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 14 }}>
               {avConciergerie.map((a,i) => (
@@ -652,8 +642,8 @@ function PageServices({ setPage }) {
         <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(26px,4vw,34px)", fontWeight: 700, color: C.white, marginBottom: 16 }}>Propriétaire à Bordeaux ? Parlons de votre projet.</h2>
         <p style={{ fontSize: 16, color: "rgba(255,255,255,0.85)", maxWidth: 460, margin: "0 auto 32px" }}>Sous-location professionnelle ou conciergerie Bordeaux : on vous guide vers la meilleure option. Premier échange gratuit.</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center" }}>
-          <Btn href={PHONE} bg={C.white} color={C.sageDark}><Ico.Phone/> Appeler maintenant</Btn>
-          <Btn onClick={() => { setPage("contact"); window.scrollTo({ top: 0 }); }} bg="transparent" color={C.white} border="2px solid rgba(255,255,255,0.5)" style={{ boxShadow: "none" }}><Ico.Mail/> Nous contacter</Btn>
+          <Btn href={PHONE} onClick={() => track('generate_lead', {method:'phone',location:'cta_services'})} bg={C.white} color={C.sageDark}><Ico.Phone/> Appeler maintenant</Btn>
+          <Btn onClick={() => { track('generate_lead', {method:'contact_page',location:'services'}); setPage("contact"); window.scrollTo({ top: 0 }); }} bg="transparent" color={C.white} border="2px solid rgba(255,255,255,0.5)" style={{ boxShadow: "none" }}><Ico.Mail/> Nous contacter</Btn>
         </div>
       </FadeIn>
     </section>
@@ -669,6 +659,7 @@ function PageContact() {
       sub: "Réponse immédiate",
       value: PHONE_DISPLAY,
       href: PHONE,
+      method: "phone",
       bg: C.sage,
       color: C.white,
       shadow: C.sage,
@@ -679,6 +670,7 @@ function PageContact() {
       sub: "Réponse sous 1h",
       value: "Envoyer un message",
       href: WHATSAPP,
+      method: "whatsapp",
       bg: "#25D366",
       color: C.white,
       shadow: "#25D366",
@@ -689,6 +681,7 @@ function PageContact() {
       sub: "Réponse sous 24h",
       value: EMAIL,
       href: "mailto:"+EMAIL,
+      method: "email",
       bg: C.white,
       color: C.dark,
       shadow: "rgba(0,0,0,0.08)",
@@ -699,13 +692,12 @@ function PageContact() {
     {/* HERO CONTACT */}
     <section style={{ position: "relative", padding: "140px 24px 80px", overflow: "hidden" }}>
       <div style={{ position: "absolute", inset: 0 }}>
-        <img src={IMG.bordeaux} alt="Bordeaux" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+        <img src={IMG.bordeaux} alt="Bordeaux" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(44,44,44,0.7) 0%, rgba(44,44,44,0.5) 100%)" }}/>
       </div>
       <div style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
         <FadeIn>
-          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Contact</span>
-          <h1 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(32px,5vw,48px)", fontWeight: 700, color: C.white, marginTop: 12, marginBottom: 16 }}>
+          <h1 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(32px,5vw,48px)", fontWeight: 700, color: C.white, marginTop: 0, marginBottom: 16 }}>
             Parlons de <span style={{ fontStyle: "italic" }}>votre logement</span>
           </h1>
           <p style={{ fontSize: 17, color: "rgba(255,255,255,0.85)", maxWidth: 480, margin: "0 auto" }}>Premier échange gratuit, sans engagement. On vous répond vite.</p>
@@ -714,7 +706,7 @@ function PageContact() {
     </section>
 
     {/* CONTACT CARDS */}
-    <section style={{ padding: "80px 24px 100px", background: C.warmWhite }}>
+    <section style={{ padding: "80px 24px 100px", background: "#FFFFFF" }}>
       <div style={{ maxWidth: 860, margin: "0 auto" }}>
         <FadeIn><div style={{ textAlign: "center", marginBottom: 48 }}>
           <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(24px,3vw,32px)", fontWeight: 700, color: C.dark }}>Choisissez votre <span style={{ color: C.terra, fontStyle: "italic" }}>canal préféré</span></h2>
@@ -724,7 +716,7 @@ function PageContact() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 20, marginBottom: 56 }}>
           {contacts.map((c, i) => (
             <FadeIn key={i} delay={i * 0.1}>
-              <a href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="loya-cta-card" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "36px 24px", background: c.bg, borderRadius: 24, boxShadow: `0 8px 32px ${c.shadow}30`, textDecoration: "none", border: c.bg === C.white ? `1px solid ${C.beige}` : "none" }}>
+              <a href={c.href} onClick={() => track('generate_lead', {method:c.method,location:'contact'})} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="loya-cta-card" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "36px 24px", background: c.bg, borderRadius: 14, boxShadow: c.bg === C.white ? "none" : `0 8px 24px ${c.shadow}30`, textDecoration: "none", border: c.bg === C.white ? `1px solid ${C.beige}` : "none" }}>
                 <div style={{ width: 64, height: 64, borderRadius: "50%", background: c.bg === C.white ? `${C.terra}10` : "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", color: c.bg === C.white ? C.terra : C.white, marginBottom: 18 }}>{c.icon}</div>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: c.bg === C.white ? C.sand : "rgba(255,255,255,0.7)", marginBottom: 6 }}>{c.sub}</div>
                 <div style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 22, fontWeight: 700, color: c.color, marginBottom: 8 }}>{c.label}</div>
@@ -767,15 +759,20 @@ function PageContact() {
 // ══════════ APP PRINCIPAL ══════════
 function App() {
   const [page, setPage] = useState("accueil");
+  useEffect(() => {
+    track('page_view', { page_title: page, page_location: window.location.href });
+  }, [page]);
 
   return (
     <div style={{ paddingBottom: 70 }}>
       <GlobalStyles/>
       <ScrollProgress/>
       <Header page={page} setPage={setPage}/>
-      {page === "accueil" && <PageAccueil setPage={setPage}/>}
-      {page === "services" && <PageServices setPage={setPage}/>}
-      {page === "contact" && <PageContact/>}
+      <main id="main-content">
+        {page === "accueil" && <PageAccueil setPage={setPage}/>}
+        {page === "services" && <PageServices setPage={setPage}/>}
+        {page === "contact" && <PageContact/>}
+      </main>
       <Footer setPage={setPage}/>
       <StickyCTA setPage={setPage}/>
     </div>
