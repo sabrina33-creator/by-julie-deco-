@@ -39,7 +39,12 @@ function GlobalStyles() {
     <style>{`
       *, *::before, *::after { box-sizing: border-box; }
       html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-      body { overflow-x: hidden; }
+      body { overflow-x: hidden; font-family: 'Figtree', system-ui, sans-serif; font-size: 16px; line-height: 1.65; }
+      h1, h2, h3 { font-family: 'Josefin Sans', sans-serif; text-wrap: balance; letter-spacing: -0.02em; }
+      p { text-wrap: pretty; max-width: 72ch; }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      }
 
       /* Scrollbar */
       ::-webkit-scrollbar { width: 5px; }
@@ -101,7 +106,7 @@ function GlobalStyles() {
 
       /* Chiffre fantôme derrière les étapes */
       .loya-ghost-num {
-        font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+        font-family: 'Josefin Sans', sans-serif;
         font-size: clamp(90px, 14vw, 150px);
         font-weight: 700;
         line-height: 1;
@@ -122,7 +127,7 @@ function GlobalStyles() {
 
       /* Valeur stat hero */
       .loya-stat-num {
-        font-family: 'Cormorant Garamond', serif;
+        font-family: 'Josefin Sans', sans-serif;
         font-size: 30px; font-weight: 700; letter-spacing: -0.5px;
         color: #D4956B; line-height: 1;
       }
@@ -195,7 +200,7 @@ const Ico = {
 
 // ── Bouton CTA ──
 function Btn({ href, onClick, children, bg, color = C.white, border, style = {} }) {
-  const base = { display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 28px", borderRadius: 12, fontSize: 15, fontWeight: 600, fontFamily: "'DM Sans',sans-serif", cursor: "pointer", transition: "transform 0.2s", background: bg || C.sage, color, border: border || "none", boxShadow: `0 2px 12px ${bg || C.sage}30`, textDecoration: "none", ...style };
+  const base = { display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 28px", borderRadius: 12, fontSize: 15, fontWeight: 600, fontFamily: "'Figtree',sans-serif", cursor: "pointer", transition: "transform 0.2s", background: bg || C.sage, color, border: border || "none", boxShadow: `0 2px 12px ${bg || C.sage}30`, textDecoration: "none", ...style };
   if (href) return <a href={href} style={base}>{children}</a>;
   return <div onClick={onClick} style={base}>{children}</div>;
 }
@@ -214,8 +219,8 @@ function Header({ page, setPage }) {
         <div onClick={() => goTo("accueil")} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 13 }}>
           <img src={logoSvg} alt="Loya" style={{ height: 42, width: 42, flexShrink: 0, borderRadius: 10, display: "block" }} />
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-            <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 800, color: scrolled ? C.dark : C.white, letterSpacing: "-0.4px", lineHeight: 1.1, textShadow: scrolled ? "none" : "0 1px 6px rgba(0,0,0,0.4)" }}>Loya</span>
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 9.5, fontWeight: 600, color: scrolled ? C.sageDark : "rgba(255,255,255,0.75)", letterSpacing: "2.8px", textTransform: "uppercase", lineHeight: 1, marginTop: 4, textShadow: scrolled ? "none" : "0 1px 3px rgba(0,0,0,0.4)" }}>Conciergerie · Bordeaux</span>
+            <span style={{ fontFamily: "'Josefin Sans', sans-serif", fontSize: 22, fontWeight: 800, color: scrolled ? C.dark : C.white, letterSpacing: "-0.2px", lineHeight: 1.1, textShadow: scrolled ? "none" : "0 1px 6px rgba(0,0,0,0.4)" }}>Loya</span>
+            <span style={{ fontFamily: "'Figtree', sans-serif", fontSize: 9.5, fontWeight: 600, color: scrolled ? C.sageDark : "rgba(255,255,255,0.75)", letterSpacing: "2.8px", textTransform: "uppercase", lineHeight: 1, marginTop: 4, textShadow: scrolled ? "none" : "0 1px 3px rgba(0,0,0,0.4)" }}>Conciergerie · Bordeaux</span>
           </div>
         </div>
         <nav style={{ display: "flex", alignItems: "center", gap: 20 }}>
@@ -249,7 +254,7 @@ function Footer({ setPage }) {
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 48, marginBottom: 48 }}>
           <div style={{ flex: "1 1 280px" }}>
-            <span style={{ fontFamily: "'Playfair Display',serif", fontSize: 24, fontWeight: 700, color: C.cream }}>Loya</span>
+            <span style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 24, fontWeight: 700, color: C.cream }}>Loya</span>
             <p style={{ fontSize: 14, lineHeight: 1.7, color: C.sand, maxWidth: 300, marginTop: 16 }}>Conciergerie Bordeaux & sous-location professionnelle. Gestion locative courte durée pour propriétaires bordelais.</p>
           </div>
           <div style={{ flex: "1 1 140px" }}>
@@ -273,7 +278,7 @@ function FaqItem({ q, a }) {
   return (
     <div onClick={() => setOpen(!open)} className="loya-faq" style={{ background: C.white, borderRadius: 16, padding: "20px 24px", cursor: "pointer", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", border: `1px solid ${open ? C.terra+"40" : "transparent"}` }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
-        <span style={{ fontSize: 16, fontWeight: 600, color: C.dark, fontFamily: "'DM Sans',sans-serif" }}>{q}</span>
+        <span style={{ fontSize: 16, fontWeight: 600, color: C.dark, fontFamily: "'Figtree',sans-serif" }}>{q}</span>
         <div style={{ minWidth: 20, color: C.terra, transform: open ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.3s" }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
@@ -313,7 +318,7 @@ function PageAccueil({ setPage }) {
           </div>
         </FadeIn>
         <FadeIn delay={0.15}>
-          <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(34px,6vw,54px)", fontWeight: 700, color: C.white, lineHeight: 1.15, marginBottom: 20 }}>
+          <h1 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(34px,6vw,54px)", fontWeight: 700, color: C.white, lineHeight: 1.15, marginBottom: 20 }}>
             Jusqu'à +40% de revenus locatifs<br/>à <span style={{ color: "#D4956B", fontStyle: "italic" }}>Bordeaux</span>. Sans rien gérer.
           </h1>
         </FadeIn>
@@ -350,13 +355,13 @@ function PageAccueil({ setPage }) {
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <FadeIn><div style={{ textAlign: "center", marginBottom: 56 }}>
           <span style={{ fontSize: 12, color: C.terra, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Vous êtes propriétaire ?</span>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 12 }}>Ça vous <span style={{ color: C.terra, fontStyle: "italic" }}>parle ?</span></h2>
+          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 12 }}>Ça vous <span style={{ color: C.terra, fontStyle: "italic" }}>parle ?</span></h2>
         </div></FadeIn>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))", gap: 20 }}>
           {problemes.map((p,i) => (
             <FadeIn key={i} delay={i*0.1}><div style={{ background: C.white, borderRadius: 20, padding: "32px 24px", boxShadow: "0 2px 16px rgba(0,0,0,0.04)", borderLeft: `4px solid ${C.terra}30` }}>
               <div style={{ color: C.terra, marginBottom: 16 }}>{p.icon}</div>
-              <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 18, fontWeight: 600, color: C.dark, marginBottom: 8 }}>{p.title}</h3>
+              <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 18, fontWeight: 600, color: C.dark, marginBottom: 8 }}>{p.title}</h3>
               <p style={{ fontSize: 14, color: C.darkSoft, lineHeight: 1.6 }}>{p.desc}</p>
             </div></FadeIn>
           ))}
@@ -374,7 +379,7 @@ function PageAccueil({ setPage }) {
         </FadeIn>
         <FadeIn delay={0.2} style={{ flex: "1 1 360px" }}>
           <span style={{ fontSize: 12, color: C.sage, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Pourquoi Bordeaux</span>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(26px,4vw,34px)", fontWeight: 700, color: C.dark, lineHeight: 1.25, marginTop: 12, marginBottom: 16 }}>
+          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(26px,4vw,34px)", fontWeight: 700, color: C.dark, lineHeight: 1.25, marginTop: 12, marginBottom: 16 }}>
             Une ville qui <span style={{ color: C.terra, fontStyle: "italic" }}>attire</span>
           </h2>
           <p style={{ fontSize: 16, color: C.darkSoft, lineHeight: 1.8, marginBottom: 16 }}>
@@ -392,7 +397,7 @@ function PageAccueil({ setPage }) {
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <FadeIn><div style={{ textAlign: "center", marginBottom: 56 }}>
           <span style={{ fontSize: 12, color: C.sage, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Nos solutions</span>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 12 }}>Deux offres, <span style={{ color: C.terra, fontStyle: "italic" }}>un même objectif</span></h2>
+          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 12 }}>Deux offres, <span style={{ color: C.terra, fontStyle: "italic" }}>un même objectif</span></h2>
           <p style={{ fontSize: 16, color: C.darkSoft, marginTop: 12, maxWidth: 500, margin: "12px auto 0" }}>Gagnez plus, gérez moins. Choisissez ce qui vous correspond.</p>
         </div></FadeIn>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))", gap: 28 }}>
@@ -400,7 +405,7 @@ function PageAccueil({ setPage }) {
           <FadeIn delay={0.1}>
             <div className="loya-card" style={{ background: C.white, borderRadius: 24, padding: "40px 32px", boxShadow: "0 4px 24px rgba(0,0,0,0.05)", height: "100%", borderTop: `4px solid ${C.terra}` }}>
               <div style={{ width: 56, height: 56, borderRadius: 16, background: `${C.terra}12`, display: "flex", alignItems: "center", justifyContent: "center", color: C.terra, marginBottom: 20 }}><Ico.Home s={28}/></div>
-              <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 700, color: C.dark, marginBottom: 12 }}>Sous-location professionnelle Bordeaux</h3>
+              <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 22, fontWeight: 700, color: C.dark, marginBottom: 12 }}>Sous-location professionnelle Bordeaux</h3>
               <p style={{ fontSize: 15, color: C.darkSoft, lineHeight: 1.7, marginBottom: 20 }}>Un contrat, un virement fixe chaque mois. Peu importe le taux d'occupation. Votre seule responsabilité : encaisser.</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {["Loyer garanti mensuel", "Zéro vacance locative", "Gestion complète prise en charge", "Contrat professionnel sécurisé", "Stabilité financière", "Mise en valeur du logement"].map((t,i) => (
@@ -413,7 +418,7 @@ function PageAccueil({ setPage }) {
           <FadeIn delay={0.2}>
             <div className="loya-card" style={{ background: C.white, borderRadius: 24, padding: "40px 32px", boxShadow: "0 4px 24px rgba(0,0,0,0.05)", height: "100%", borderTop: `4px solid ${C.sage}` }}>
               <div style={{ width: 56, height: 56, borderRadius: 16, background: `${C.sage}15`, display: "flex", alignItems: "center", justifyContent: "center", color: C.sage, marginBottom: 20 }}><Ico.Key s={28}/></div>
-              <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 700, color: C.dark, marginBottom: 12 }}>Conciergerie Bordeaux</h3>
+              <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 22, fontWeight: 700, color: C.dark, marginBottom: 12 }}>Conciergerie Bordeaux</h3>
               <p style={{ fontSize: 15, color: C.darkSoft, lineHeight: 1.7, marginBottom: 20 }}>Vous gardez la main sur votre calendrier. On gère tout le reste. Résultat : votre Airbnb rapporte plus, sans vous coûter du temps.</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {["Check-in / check-out voyageurs", "Ménage & linge de qualité", "Optimisation des revenus", "Gestion Airbnb complète", "Communication voyageurs", "Amélioration de la rentabilité"].map((t,i) => (
@@ -431,7 +436,7 @@ function PageAccueil({ setPage }) {
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <FadeIn><div style={{ textAlign: "center", marginBottom: 64 }}>
           <span style={{ fontSize: 12, color: C.terra, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Simple & rapide</span>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 12 }}>Comment ça <span style={{ color: C.terra, fontStyle: "italic" }}>marche ?</span></h2>
+          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 12 }}>Comment ça <span style={{ color: C.terra, fontStyle: "italic" }}>marche ?</span></h2>
           <p style={{ fontSize: 16, color: C.darkSoft, marginTop: 12, maxWidth: 480, margin: "12px auto 0" }}>Trois étapes. Pas une de plus.</p>
         </div></FadeIn>
         <div style={{ position: "relative" }}>
@@ -450,7 +455,7 @@ function PageAccueil({ setPage }) {
                     {s.icon}
                     <div style={{ position: "absolute", top: -8, right: -8, width: 26, height: 26, borderRadius: "50%", background: C.white, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 800, color: i === 2 ? C.sageDark : C.terra, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>{s.num}</div>
                   </div>
-                  <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: C.dark, marginBottom: 10 }}>{s.title}</h3>
+                  <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 20, fontWeight: 700, color: C.dark, marginBottom: 10 }}>{s.title}</h3>
                   <p style={{ fontSize: 14, color: C.darkSoft, lineHeight: 1.7 }}>{s.desc}</p>
                 </div>
               </FadeIn>
@@ -468,13 +473,13 @@ function PageAccueil({ setPage }) {
     <section style={{ padding: "100px 24px", background: C.warmWhite }}>
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <FadeIn><div style={{ textAlign: "center", marginBottom: 56 }}>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark }}>Pourquoi les propriétaires nous <span style={{ color: C.terra, fontStyle: "italic" }}>font confiance</span></h2>
+          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark }}>Pourquoi les propriétaires nous <span style={{ color: C.terra, fontStyle: "italic" }}>font confiance</span></h2>
         </div></FadeIn>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 24 }}>
           {valeurs.map((v,i) => (
             <FadeIn key={i} delay={i*0.1}><div style={{ textAlign: "center", padding: "32px 20px" }}>
               <div style={{ width: 60, height: 60, borderRadius: "50%", background: `${C.sage}12`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 18px", color: C.sage }}>{v.icon}</div>
-              <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 18, fontWeight: 600, color: C.dark, marginBottom: 8 }}>{v.title}</h3>
+              <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 18, fontWeight: 600, color: C.dark, marginBottom: 8 }}>{v.title}</h3>
               <p style={{ fontSize: 14, color: C.darkSoft, lineHeight: 1.6 }}>{v.desc}</p>
             </div></FadeIn>
           ))}
@@ -496,7 +501,7 @@ function PageAccueil({ setPage }) {
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
         <FadeIn><div style={{ textAlign: "center", marginBottom: 48 }}>
           <span style={{ fontSize: 12, color: C.sage, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Vos questions</span>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 12 }}>Questions <span style={{ color: C.terra, fontStyle: "italic" }}>fréquentes</span></h2>
+          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, color: C.dark, marginTop: 12 }}>Questions <span style={{ color: C.terra, fontStyle: "italic" }}>fréquentes</span></h2>
         </div></FadeIn>
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {[
@@ -505,7 +510,7 @@ function PageAccueil({ setPage }) {
             { q: "Puis-je récupérer mon logement quand je veux ?", a: "Oui. Le contrat prévoit des conditions de sortie claires et raisonnables. Nous travaillons sur des engagements adaptés à votre situation, sans vous piéger dans un bail contraignant. On en discute ensemble lors du premier échange gratuit." },
             { q: "Que se passe-t-il si un voyageur cause des dégâts ?", a: "Airbnb propose une protection hôte jusqu'à 3 millions d'euros. En complément, nous sélectionnons soigneusement les voyageurs et effectuons un état des lieux à chaque départ. Les incidents restent rares, et nous les gérons directement, sans vous solliciter." },
             { q: "Est-ce légal de sous-louer son logement à Bordeaux ?", a: "Oui, sous conditions. Pour un bien dont vous êtes propriétaire, c'est tout à fait légal. Nous opérons dans le strict respect de la réglementation bordelaise et vous accompagnons dans le cadre juridique adapté à votre situation." },
-            { q: "Combien de temps avant de démarrer ?", a: "En général 7 à 14 jours suffisent : visite du bien, photos professionnelles, création ou optimisation des annonces. Dès que le contrat est signé, on s'occupe de tout. Vous n'avez plus rien à faire." },
+            { q: "Combien de temps avant de démarrer ?", a: "En général, 7 à 14 jours suffisent : visite du bien, photos professionnelles, création ou optimisation des annonces. Dès que le contrat est signé, on s'occupe de tout. Vous n'avez plus rien à faire." },
           ].map((item, i) => (
             <FadeIn key={i} delay={i * 0.05}><FaqItem q={item.q} a={item.a}/></FadeIn>
           ))}
@@ -516,7 +521,7 @@ function PageAccueil({ setPage }) {
     {/* ── CTA FINAL ── */}
     <section style={{ padding: "80px 24px", textAlign: "center", background: `linear-gradient(135deg, ${C.sageDark} 0%, ${C.sage} 100%)`, marginTop: 80 }}>
       <FadeIn>
-        <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(26px,4vw,36px)", fontWeight: 700, color: C.white, marginBottom: 16 }}>Votre bien mérite mieux que la gestion en solo.</h2>
+        <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(26px,4vw,36px)", fontWeight: 700, color: C.white, marginBottom: 16 }}>Votre bien mérite mieux que la gestion en solo.</h2>
         <p style={{ fontSize: 16, color: "rgba(255,255,255,0.85)", maxWidth: 460, margin: "0 auto 32px" }}>Sous-location ou conciergerie, on vous aide à choisir en 15 minutes. Premier échange gratuit, sans engagement.</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center" }}>
           <Btn href={PHONE} bg={C.white} color={C.sageDark}><Ico.Phone/> Appeler maintenant</Btn>
@@ -552,7 +557,7 @@ function PageServices({ setPage }) {
     <section style={{ padding: "140px 24px 80px", background: `linear-gradient(170deg, ${C.cream} 0%, ${C.beige} 100%)`, textAlign: "center" }}>
       <FadeIn>
         <span style={{ fontSize: 12, color: C.sage, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Nos services</span>
-        <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(32px,5vw,48px)", fontWeight: 700, color: C.dark, marginTop: 12, marginBottom: 20 }}>
+        <h1 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(32px,5vw,48px)", fontWeight: 700, color: C.dark, marginTop: 12, marginBottom: 20 }}>
           Sous-location & conciergerie<br/><span style={{ color: C.terra, fontStyle: "italic" }}>à Bordeaux</span>
         </h1>
         <p style={{ fontSize: 17, color: C.darkSoft, lineHeight: 1.7, maxWidth: 560, margin: "0 auto" }}>Deux services pensés pour les propriétaires bordelais. Simples, professionnels, adaptés à votre situation.</p>
@@ -568,7 +573,7 @@ function PageServices({ setPage }) {
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: `${C.terra}10`, padding: "8px 18px", borderRadius: 50, marginBottom: 20 }}>
                 <Ico.Home s={16}/><span style={{ fontSize: 12, color: C.terra, fontWeight: 600, letterSpacing: 1.5, textTransform: "uppercase" }}>Service 1</span>
               </div>
-              <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(28px,4vw,36px)", fontWeight: 700, color: C.dark, lineHeight: 1.25, marginBottom: 16 }}>
+              <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,36px)", fontWeight: 700, color: C.dark, lineHeight: 1.25, marginBottom: 16 }}>
                 Sous-location professionnelle <span style={{ color: C.terra, fontStyle: "italic" }}>Bordeaux</span>
               </h2>
               <p style={{ fontSize: 16, color: C.darkSoft, lineHeight: 1.8, marginBottom: 8 }}>
@@ -586,7 +591,7 @@ function PageServices({ setPage }) {
 
         <FadeIn delay={0.15}>
           <div style={{ background: C.white, borderRadius: 24, padding: "40px 36px", boxShadow: "0 4px 24px rgba(0,0,0,0.04)", borderLeft: `4px solid ${C.terra}` }}>
-            <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: C.dark, marginBottom: 24 }}>Vos avantages</h3>
+            <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 20, fontWeight: 700, color: C.dark, marginBottom: 24 }}>Vos avantages</h3>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 14 }}>
               {avSubloc.map((a,i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 0" }}>
@@ -609,7 +614,7 @@ function PageServices({ setPage }) {
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: `${C.sage}12`, padding: "8px 18px", borderRadius: 50, marginBottom: 20 }}>
                 <Ico.Key s={16}/><span style={{ fontSize: 12, color: C.sageDark, fontWeight: 600, letterSpacing: 1.5, textTransform: "uppercase" }}>Service 2</span>
               </div>
-              <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(28px,4vw,36px)", fontWeight: 700, color: C.dark, lineHeight: 1.25, marginBottom: 16 }}>
+              <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(28px,4vw,36px)", fontWeight: 700, color: C.dark, lineHeight: 1.25, marginBottom: 16 }}>
                 Conciergerie <span style={{ color: C.sageDark, fontStyle: "italic" }}>Bordeaux</span>
               </h2>
               <p style={{ fontSize: 16, color: C.darkSoft, lineHeight: 1.8, marginBottom: 8 }}>
@@ -627,7 +632,7 @@ function PageServices({ setPage }) {
 
         <FadeIn delay={0.15}>
           <div style={{ background: C.white, borderRadius: 24, padding: "40px 36px", boxShadow: "0 4px 24px rgba(0,0,0,0.04)", borderLeft: `4px solid ${C.sage}` }}>
-            <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, fontWeight: 700, color: C.dark, marginBottom: 24 }}>Vos avantages</h3>
+            <h3 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 20, fontWeight: 700, color: C.dark, marginBottom: 24 }}>Vos avantages</h3>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 14 }}>
               {avConciergerie.map((a,i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 0" }}>
@@ -644,7 +649,7 @@ function PageServices({ setPage }) {
     {/* CTA */}
     <section style={{ padding: "80px 24px", textAlign: "center", background: `linear-gradient(135deg, ${C.sageDark} 0%, ${C.sage} 100%)` }}>
       <FadeIn>
-        <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(26px,4vw,34px)", fontWeight: 700, color: C.white, marginBottom: 16 }}>Propriétaire à Bordeaux ? Parlons de votre projet.</h2>
+        <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(26px,4vw,34px)", fontWeight: 700, color: C.white, marginBottom: 16 }}>Propriétaire à Bordeaux ? Parlons de votre projet.</h2>
         <p style={{ fontSize: 16, color: "rgba(255,255,255,0.85)", maxWidth: 460, margin: "0 auto 32px" }}>Sous-location professionnelle ou conciergerie Bordeaux : on vous guide vers la meilleure option. Premier échange gratuit.</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center" }}>
           <Btn href={PHONE} bg={C.white} color={C.sageDark}><Ico.Phone/> Appeler maintenant</Btn>
@@ -700,7 +705,7 @@ function PageContact() {
       <div style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
         <FadeIn>
           <span style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Contact</span>
-          <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(32px,5vw,48px)", fontWeight: 700, color: C.white, marginTop: 12, marginBottom: 16 }}>
+          <h1 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(32px,5vw,48px)", fontWeight: 700, color: C.white, marginTop: 12, marginBottom: 16 }}>
             Parlons de <span style={{ fontStyle: "italic" }}>votre logement</span>
           </h1>
           <p style={{ fontSize: 17, color: "rgba(255,255,255,0.85)", maxWidth: 480, margin: "0 auto" }}>Premier échange gratuit, sans engagement. On vous répond vite.</p>
@@ -712,7 +717,7 @@ function PageContact() {
     <section style={{ padding: "80px 24px 100px", background: C.warmWhite }}>
       <div style={{ maxWidth: 860, margin: "0 auto" }}>
         <FadeIn><div style={{ textAlign: "center", marginBottom: 48 }}>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(24px,3vw,32px)", fontWeight: 700, color: C.dark }}>Choisissez votre <span style={{ color: C.terra, fontStyle: "italic" }}>canal préféré</span></h2>
+          <h2 style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: "clamp(24px,3vw,32px)", fontWeight: 700, color: C.dark }}>Choisissez votre <span style={{ color: C.terra, fontStyle: "italic" }}>canal préféré</span></h2>
           <p style={{ fontSize: 15, color: C.darkSoft, marginTop: 10 }}>Trois façons de nous joindre, toutes sans engagement.</p>
         </div></FadeIn>
 
@@ -722,7 +727,7 @@ function PageContact() {
               <a href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="loya-cta-card" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "36px 24px", background: c.bg, borderRadius: 24, boxShadow: `0 8px 32px ${c.shadow}30`, textDecoration: "none", border: c.bg === C.white ? `1px solid ${C.beige}` : "none" }}>
                 <div style={{ width: 64, height: 64, borderRadius: "50%", background: c.bg === C.white ? `${C.terra}10` : "rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", color: c.bg === C.white ? C.terra : C.white, marginBottom: 18 }}>{c.icon}</div>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: c.bg === C.white ? C.sand : "rgba(255,255,255,0.7)", marginBottom: 6 }}>{c.sub}</div>
-                <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, fontWeight: 700, color: c.color, marginBottom: 8 }}>{c.label}</div>
+                <div style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 22, fontWeight: 700, color: c.color, marginBottom: 8 }}>{c.label}</div>
                 <div style={{ fontSize: 14, fontWeight: 500, color: c.bg === C.white ? C.darkSoft : "rgba(255,255,255,0.85)" }}>{c.value}</div>
               </a>
             </FadeIn>
