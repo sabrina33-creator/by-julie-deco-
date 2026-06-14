@@ -18,8 +18,8 @@ const F = {
   sans:  "'Jost', 'Helvetica Neue', sans-serif",
 };
 
-const WHATSAPP = "https://wa.me/33600000000?text=Bonjour%20JD%20D%C3%A9co%2C%20je%20souhaite%20en%20savoir%20plus.";
-const EMAIL    = "contact@jd-deco.fr";
+const WHATSAPP = "https://wa.me/33600000000?text=Bonjour%20By%20Julie%20D%C3%A9co%2C%20je%20souhaite%20en%20savoir%20plus.";
+const EMAIL    = "contact@by-julie-deco.fr";
 
 const NAV = [
   { path: '/',           label: 'Accueil'      },
@@ -30,9 +30,9 @@ const NAV = [
 // ─── GLOBAL STYLES + FONTS ────────────────────────────────────────────────────
 function GlobalStyles() {
   useEffect(() => {
-    if (document.getElementById('jd-deco-fonts')) return;
+    if (document.getElementById('by-julie-deco-fonts')) return;
     const link  = document.createElement('link');
-    link.id     = 'jd-deco-fonts';
+    link.id     = 'by-julie-deco-fonts';
     link.rel    = 'stylesheet';
     link.href   = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap';
     document.head.appendChild(link);
@@ -157,7 +157,7 @@ function Header() {
             color: fg, letterSpacing: '0.04em',
             transition: 'color 0.4s',
           }}>
-            JD Déco
+            By Julie Déco
           </Link>
 
           {/* Desktop nav */}
@@ -266,7 +266,7 @@ function Footer() {
           {/* Marque */}
           <div>
             <p style={{ fontFamily: F.serif, fontSize: '1.4rem', fontWeight: 300, fontStyle: 'italic', color: C.white, marginBottom: 8 }}>
-              JD Déco
+              By Julie Déco
             </p>
             <p style={{ fontFamily: F.sans, fontSize: '0.72rem', color: 'rgba(255,255,255,0.28)', fontWeight: 300, letterSpacing: '0.06em' }}>
               Conseil déco 100% en ligne
@@ -306,7 +306,7 @@ function Footer() {
         </div>
 
         <p style={{ fontFamily: F.sans, fontSize: '0.62rem', color: 'rgba(255,255,255,0.15)', textAlign: 'center', letterSpacing: '0.05em' }}>
-          © 2024 JD Déco · Tous droits réservés
+          © 2024 By Julie Déco · Tous droits réservés
         </p>
       </div>
     </footer>
@@ -328,7 +328,7 @@ function PageContact() {
       }}>
         <img
           src={imgContactBanner}
-          alt="Ambiance JD Déco — Chambre"
+          alt="Ambiance By Julie Déco — Chambre"
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
         />
         <div style={{
@@ -351,7 +351,7 @@ function PageContact() {
               display: 'block', fontFamily: F.sans, fontSize: '0.62rem',
               letterSpacing: '0.38em', textTransform: 'uppercase', color: C.gold, marginBottom: 18,
             }}>
-              JD Déco
+              By Julie Déco
             </span>
             <h1 style={{
               fontFamily: F.serif, fontSize: 'clamp(3rem, 7vw, 6.5rem)',

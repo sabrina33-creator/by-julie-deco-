@@ -103,7 +103,7 @@ function PageHeader() {
 
           {/* Left — title */}
           <Reveal>
-            <Label>JD Déco</Label>
+            <Label>By Julie Déco</Label>
             <h1 style={{
               fontFamily: F.serif,
               fontSize: 'clamp(3rem, 7vw, 6.5rem)',
@@ -481,7 +481,7 @@ function CTASection() {
           </p>
 
           <motion.a
-            href="https://wa.me/33600000000?text=Bonjour%20JD%20D%C3%A9co%2C%20j%27ai%20une%20question%20sur%20vos%20formules."
+            href="https://wa.me/33600000000?text=Bonjour%20By%20Julie%20D%C3%A9co%2C%20j%27ai%20une%20question%20sur%20vos%20formules."
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.025, opacity: 0.9 }}
@@ -511,7 +511,7 @@ function CTASection() {
           <div style={{ marginTop: 56, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14 }}>
             <div style={{ width: 36, height: 1, background: `${C.gold}30` }} />
             <span style={{ fontFamily: F.serif, fontSize: '0.85rem', fontStyle: 'italic', color: `${C.gold}45` }}>
-              jd-deco.fr
+              by-julie-deco.fr
             </span>
             <div style={{ width: 36, height: 1, background: `${C.gold}30` }} />
           </div>
@@ -532,9 +532,9 @@ function WhatsAppIcon() {
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
 export default function JDDecoServices() {
   useEffect(() => {
-    if (document.getElementById('jd-deco-fonts')) return;
+    if (document.getElementById('by-julie-deco-fonts')) return;
     const link = document.createElement('link');
-    link.id   = 'jd-deco-fonts';
+    link.id   = 'by-julie-deco-fonts';
     link.rel  = 'stylesheet';
     link.href = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap';
     document.head.appendChild(link);
@@ -561,7 +561,7 @@ export default function JDDecoServices() {
         }}>
           <img
             src={imgServicesBanner}
-            alt="Ambiance JD Déco — Salon"
+            alt="Ambiance By Julie Déco — Salon"
             style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
           />
           <div style={{

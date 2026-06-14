@@ -115,7 +115,7 @@ function Hero() {
           color: C.white,
         }}
       >
-        JD Déco
+        By Julie Déco
       </motion.div>
 
       {/* Bottom-left editorial layout */}
@@ -298,7 +298,7 @@ function WhySection() {
                 letterSpacing: '-0.015em',
                 margin: 0,
               }}>
-                Pourquoi JD Déco
+                Pourquoi By Julie Déco
               </h2>
             </div>
             <p style={{
@@ -626,7 +626,7 @@ function CTASection() {
         userSelect: 'none',
         lineHeight: 1,
       }}>
-        JD Déco
+        By Julie Déco
       </div>
 
       <div style={{ maxWidth: 680, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
@@ -659,7 +659,7 @@ function CTASection() {
           </p>
 
           <motion.a
-            href="https://wa.me/33600000000?text=Bonjour%20JD%20D%C3%A9co%2C%20je%20voudrais%20en%20savoir%20plus%20sur%20vos%20prestations."
+            href="https://wa.me/33600000000?text=Bonjour%20By%20Julie%20D%C3%A9co%2C%20je%20voudrais%20en%20savoir%20plus%20sur%20vos%20prestations."
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.025, opacity: 0.9 }}
@@ -689,7 +689,7 @@ function CTASection() {
           <div style={{ marginTop: 60, display: 'flex', alignItems: 'center', gap: 16, justifyContent: 'center' }}>
             <div style={{ width: 40, height: 1, background: `${C.gold}35` }} />
             <span style={{ fontFamily: F.serif, fontSize: '0.9rem', color: `${C.gold}50`, fontStyle: 'italic' }}>
-              jd-deco.fr
+              by-julie-deco.fr
             </span>
             <div style={{ width: 40, height: 1, background: `${C.gold}35` }} />
           </div>
@@ -710,9 +710,9 @@ function WhatsAppIcon() {
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
 export default function JDDecoHome() {
   useEffect(() => {
-    if (document.getElementById('jd-deco-fonts')) return;
+    if (document.getElementById('by-julie-deco-fonts')) return;
     const link = document.createElement('link');
-    link.id   = 'jd-deco-fonts';
+    link.id   = 'by-julie-deco-fonts';
     link.rel  = 'stylesheet';
     link.href = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap';
     document.head.appendChild(link);
