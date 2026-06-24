@@ -27,7 +27,7 @@ export function useFonts() {
     if (document.getElementById('essaloc-fonts')) return;
     const link = document.createElement('link');
     link.id   = 'essaloc-fonts';
-    link.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap';
+    link.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap';
     link.rel  = 'stylesheet';
     document.head.appendChild(link);
   }, []);
@@ -294,11 +294,13 @@ export function Header() {
           maxWidth: 1200, margin: '0 auto', padding: '0 24px',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
         }}>
-          <Link to="/" style={{
-            fontFamily: font.serif, fontWeight: 700, fontSize: '1.6rem',
-            color: C.brown, textDecoration: 'none', letterSpacing: '-0.02em',
-          }}>
-            essa<span style={{ color: C.terracotta }}>loc</span>
+          <Link to="/" style={{ textDecoration: 'none', lineHeight: 1, display: 'flex', alignItems: 'center' }}>
+            <svg viewBox="0 0 290 110" width="150" height="57" xmlns="http://www.w3.org/2000/svg" style={{display:'block'}}>
+              <text x="2" y="18" style={{fontFamily:"'DM Sans',sans-serif",fontWeight:200,fontSize:'11px',letterSpacing:'3px',fill:'#0A0A0A'}}>by</text>
+              <text x="1" y="84" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,fontSize:'65px',letterSpacing:'7px',fill:'#0A0A0A'}}>JULIE</text>
+              <line x1="0" y1="93" x2="290" y2="93" style={{stroke:'#C9A84C',strokeWidth:0.85}}/>
+              <text x="289" y="108" style={{fontFamily:"'DM Sans',sans-serif",fontWeight:200,fontSize:'10.5px',letterSpacing:'4px',fill:'#0A0A0A',textAnchor:'end'}}>déco</text>
+            </svg>
           </Link>
 
           {/* Desktop nav */}
@@ -356,8 +358,13 @@ export function Header() {
         }}>
           <Icon.X />
         </button>
-        <Link to="/" style={{ fontFamily: font.serif, fontWeight: 700, fontSize: '2rem', color: C.brown, textDecoration: 'none' }}>
-          essa<span style={{ color: C.terracotta }}>loc</span>
+        <Link to="/" style={{ textDecoration: 'none', lineHeight: 1 }}>
+          <svg viewBox="0 0 290 110" width="174" height="66" xmlns="http://www.w3.org/2000/svg" style={{display:'block'}}>
+            <text x="2" y="18" style={{fontFamily:"'DM Sans',sans-serif",fontWeight:200,fontSize:'11px',letterSpacing:'3px',fill:'#0A0A0A'}}>by</text>
+            <text x="1" y="84" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,fontSize:'65px',letterSpacing:'7px',fill:'#0A0A0A'}}>JULIE</text>
+            <line x1="0" y1="93" x2="290" y2="93" style={{stroke:'#C9A84C',strokeWidth:0.85}}/>
+            <text x="289" y="108" style={{fontFamily:"'DM Sans',sans-serif",fontWeight:200,fontSize:'10.5px',letterSpacing:'4px',fill:'#0A0A0A',textAnchor:'end'}}>déco</text>
+          </svg>
         </Link>
         {NAV.map(({ label, to }) => (
           <Link key={to} to={to} style={{
@@ -406,8 +413,13 @@ export function Footer() {
       }} className="f-grid">
         {/* Brand */}
         <div>
-          <Link to="/" style={{ fontFamily: font.serif, fontWeight: 700, fontSize: '1.8rem', color: C.sandLight, display: 'block', marginBottom: 16, textDecoration: 'none' }}>
-            essa<span style={{ color: C.terracotta }}>loc</span>
+          <Link to="/" style={{ textDecoration: 'none', lineHeight: 1, display: 'block', marginBottom: 16 }}>
+            <svg viewBox="0 0 290 110" width="150" height="57" xmlns="http://www.w3.org/2000/svg" style={{display:'block'}}>
+              <text x="2" y="18" style={{fontFamily:"'DM Sans',sans-serif",fontWeight:200,fontSize:'11px',letterSpacing:'3px',fill:'#FFFFFF'}}>by</text>
+              <text x="1" y="84" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,fontSize:'65px',letterSpacing:'7px',fill:'#FFFFFF'}}>JULIE</text>
+              <line x1="0" y1="93" x2="290" y2="93" style={{stroke:'#C9A84C',strokeWidth:0.85}}/>
+              <text x="289" y="108" style={{fontFamily:"'DM Sans',sans-serif",fontWeight:200,fontSize:'10.5px',letterSpacing:'4px',fill:'#FFFFFF',textAnchor:'end'}}>déco</text>
+            </svg>
           </Link>
           <p style={{ fontFamily: font.sans, fontSize: '0.9rem', lineHeight: 1.7, color: C.sand, margin: '0 0 24px', fontWeight: 300 }}>
             Votre partenaire de confiance pour la gestion de locations courte durée à Bordeaux et en Gironde.

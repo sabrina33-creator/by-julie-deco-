@@ -1,82 +1,92 @@
-# Services — Loya Conciergerie Bordeaux
+# Prestations & Tarifs — By Julie Déco
 
-Loya propose deux formules de gestion locative courte durée pour les propriétaires de Bordeaux et alentours.
+By Julie Déco propose trois formules de conseil en décoration intérieure, 100% en ligne, partout en France. Julie sélectionne les matières, couleurs et meubles adaptés à votre espace et votre budget — sans que vous ayez à tout rechercher par vous-même.
 
 ---
 
-## Sous-location professionnelle Bordeaux
+## Formule 01 — Conseil déco + moodboard
 
-**Type** : Contrat de sous-location professionnelle (bail professionnel sécurisé)
-**Rémunération propriétaire** : Loyer fixe garanti chaque mois, quel que soit le taux d'occupation
-**Tarif Loya** : Inclus dans la marge entre loyer versé et revenus Airbnb
-**Engagement** : Conditions de sortie flexibles, définies au contrat
-**Délai de démarrage** : 7 à 14 jours après signature
+**Tarif** : 150€  
+**Format** : 100% en ligne  
+**Délai** : 5 à 7 jours ouvrés après réception des informations
 
 ### Ce qui est inclus
 
-- Contrat professionnel encadré et sécurisé
-- Gestion complète du logement (annonces, voyageurs, ménage, linge)
-- Loyer fixe versé chaque mois, sans exception
-- Zéro vacance locative pour le propriétaire
-- Photos professionnelles et optimisation de l'annonce
-- Entretien courant du logement pris en charge
-- Aucune intervention requise de la part du propriétaire
+- Analyse de votre espace sur photos
+- Planche tendance (moodboard) personnalisée
+- Palette couleurs & matières adaptée à votre style
+- 1 échange visio de 45 min pour présenter et ajuster
 
 ### Idéal pour
 
-Propriétaires souhaitant un revenu stable et garanti, sans aucune contrainte de gestion.
+Ceux qui veulent cadrer leur projet et avoir enfin une vision claire avant d'acheter quoi que ce soit.
 
 ---
 
-## Conciergerie Airbnb Bordeaux
+## Formule 02 — Sélection mobilier
 
-**Type** : Gestion locative sur commission
-**Rémunération propriétaire** : Revenus Airbnb déduction faite de la commission Loya
-**Tarif Loya** : Commission sur les revenus générés (taux communiqué après estimation gratuite)
-**Engagement** : Conditions définies contractuellement
-**Délai de démarrage** : 7 à 14 jours après signature
+**Tarif** : 250€  
+**Format** : 100% en ligne  
+**Délai** : 5 à 7 jours ouvrés après réception des informations
 
 ### Ce qui est inclus
 
-- Création et optimisation des annonces Airbnb et Booking
-- Check-in et check-out des voyageurs (accueil physique ou boîte à clé)
-- Ménage professionnel et linge de qualité entre chaque séjour
-- Communication 24h/7j avec les voyageurs
-- Tarification dynamique pour maximiser le taux d'occupation et les revenus
-- Sélection rigoureuse des voyageurs et état des lieux à chaque départ
-- Rapports réguliers au propriétaire
+- Sélection de 15 à 25 références mobilier adaptées à votre espace et votre budget
+- Liens d'achat directs (prêts à commander)
+- Plan de disposition des meubles
+- 1 appel de suivi pour ajustements
 
 ### Idéal pour
 
-Propriétaires souhaitant conserver la maîtrise de leur calendrier tout en maximisant leurs revenus locatifs.
+Ceux qui veulent déléguer la recherche de meubles et recevoir une liste clé-en-main, sans passer des heures sur les sites de vente.
 
 ---
 
-## Estimation et contact
+## Formule 03 — Accompagnement complet
 
-| Canal | Détail |
+**Tarif** : 490€  
+**Format** : 100% en ligne  
+**Délai** : suivi sur 30 jours
+
+### Ce qui est inclus
+
+- Tout le contenu des formules 01 et 02
+- 3 appels visio inclus
+- Suivi personnalisé pendant 30 jours
+- Révisions illimitées sur les propositions
+
+### Idéal pour
+
+Ceux qui veulent déléguer entièrement leur projet déco et ne plus y penser. Julie s'occupe de tout, de la première vision à la commande finale.
+
+---
+
+## Modalités
+
+| Point | Détail |
 |---|---|
-| Téléphone | +33 7 83 37 62 93 |
-| WhatsApp | Disponible (réponse sous 1h) |
-| Email | loya.conciergerie@gmail.com |
-| Estimation | Gratuite, sous 24h après visite du bien |
-| Premier échange | Gratuit, sans engagement |
-
-**Zone d'intervention** : Bordeaux, Mérignac, Talence, Pessac, Bègles et alentours (Gironde)
-**Disponibilité** : Lundi au samedi, 9h–19h
+| Format | 100% en ligne, aucun déplacement |
+| Zone | France entière |
+| Paiement | Sécurisé à la réservation |
+| Contact initial | Gratuit, sans engagement |
+| Délai de réponse WhatsApp | Sous 1h en général |
+| Email | contact@by-julie-deco.fr |
 
 ---
 
 ## Questions fréquentes
 
-**Combien ça coûte ?**
-Pour la sous-location, aucun frais pour le propriétaire — nous versons un loyer fixe garanti. Pour la conciergerie, nous prenons une commission sur les revenus générés. Contactez-nous pour une estimation gratuite.
+**Comment fonctionne le service ?**  
+Vous envoyez des photos de votre espace, vos envies et vos contraintes. Julie analyse votre projet, crée votre moodboard ou votre sélection, et vous guide par échange visio. Tout se passe à distance, sans déplacement.
 
-**Quelle est la différence entre sous-location et conciergerie ?**
-La sous-location garantit un loyer fixe mensuel quel que soit le taux d'occupation. La conciergerie maximise les revenus potentiels en gérant directement les locations, en échange d'une commission.
+**Dois-je habiter dans une ville précise ?**  
+Non. Le service est 100% en ligne, disponible partout en France.
 
-**Combien de temps pour démarrer ?**
-En général 7 à 14 jours : visite, photos professionnelles, mise en ligne des annonces. Dès la signature, on s'occupe de tout.
+**En combien de temps reçois-je mon moodboard ?**  
+En général sous 5 à 7 jours ouvrés après réception de toutes vos informations.
 
-**Est-ce légal à Bordeaux ?**
-Oui. Nous opérons dans le respect de la réglementation bordelaise et de la législation française sur la sous-location et la gestion locative courte durée.
+**Puis-je demander des modifications ?**  
+Oui. Des ajustements sont inclus dans chaque formule. La formule accompagnement complet inclut des révisions illimitées.
+
+**Comment réserver ?**  
+Par WhatsApp ou email. Un premier échange de 20 minutes est offert pour cadrer votre projet avant toute réservation.

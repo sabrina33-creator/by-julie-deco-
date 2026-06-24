@@ -1,4 +1,4 @@
-# Loya Conciergerie — robots.txt
+# By Julie Déco — robots.txt
 
 # Allow all crawlers including AI bots
 User-agent: *
@@ -30,4 +30,4 @@ User-agent: Googlebot
 Allow: /
 
 # Sitemap
-Sitemap: https://loya-conciergerie.com/sitemap.xml
+Sitemap: https://by-julie-deco.fr/sitemap.xml

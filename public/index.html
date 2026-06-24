@@ -4,189 +4,148 @@
     <meta charset="utf-8" />
     <link rel="icon" href="/logolokka.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#B87333" />
-    <meta name="description" content="Conciergerie et sous-location professionnelle à Bordeaux. Gagnez jusqu'à +40% de revenus locatifs sur Airbnb sans rien gérer. Estimation gratuite." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://loya-conciergerie.com" />
-    <meta property="og:title" content="Loya — Conciergerie Airbnb Bordeaux | Gestion locative courte durée" />
-    <meta property="og:description" content="Conciergerie et sous-location professionnelle à Bordeaux. Gagnez jusqu'à +40% de revenus locatifs sur Airbnb sans rien gérer. Estimation gratuite." />
-    <meta property="og:image" content="https://loya-conciergerie.com/logolokka.png" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Loya — Conciergerie Airbnb Bordeaux" />
-    <meta name="twitter:description" content="Gagnez jusqu'à +40% de revenus locatifs à Bordeaux sans rien gérer. Estimation gratuite." />
-    <link rel="apple-touch-icon" href="/logolokka.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta name="theme-color" content="#0a0a0a" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>Loya — Conciergerie Airbnb Bordeaux | Gestion locative courte durée</title>
-    <link rel="canonical" href="https://loya-conciergerie.com" />
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <title>By Julie Déco — Conseil en décoration intérieure 100% en ligne</title>
+    <meta name="description" content="Vous avez des envies mais pas l'œil pour les assembler ? Julie vous guide, à distance, dans votre budget. Moodboard, sélection mobilier, accompagnement complet. À partir de 150€." />
+
+    <link rel="canonical" href="https://by-julie-deco.fr" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://by-julie-deco.fr" />
+    <meta property="og:title" content="By Julie Déco — L'œil déco qu'il vous manquait" />
+    <meta property="og:description" content="Conseil en décoration intérieure 100% en ligne. Moodboard personnalisé, sélection mobilier, accompagnement complet. À partir de 150€." />
+    <meta property="og:locale" content="fr_FR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="By Julie Déco — Conseil déco en ligne" />
+    <meta name="twitter:description" content="Moodboard, sélection mobilier, accompagnement complet. À partir de 150€." />
+
+    <link rel="apple-touch-icon" href="/logolokka.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
     <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HNVNNBY5PN"></script>
+    <!-- Google Analytics 4 — By Julie Déco -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RBFV04NW4D"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-HNVNNBY5PN', { send_page_view: false });
+      gtag('config', 'G-RBFV04NW4D', { send_page_view: false });
     </script>
+
+    <!-- Fonts preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+
+    <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
           "@type": ["LocalBusiness", "ProfessionalService"],
-          "@id": "https://loya-conciergerie.com/#business",
-          "name": "Loya Conciergerie",
-          "description": "Conciergerie et sous-location professionnelle à Bordeaux. Gestion locative courte durée, gestion Airbnb complète pour propriétaires bordelais. Jusqu'à +40% de revenus, zéro gestion.",
-          "url": "https://loya-conciergerie.com",
-          "telephone": "+33783376293",
-          "email": "loya.conciergerie@gmail.com",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Bordeaux",
-            "addressRegion": "Nouvelle-Aquitaine",
-            "postalCode": "33000",
-            "addressCountry": "FR"
-          },
-          "areaServed": [
-            { "@type": "City", "name": "Bordeaux" },
-            { "@type": "City", "name": "Mérignac" },
-            { "@type": "City", "name": "Talence" },
-            { "@type": "City", "name": "Pessac" }
-          ],
-          "openingHoursSpecification": [
-            {
-              "@type": "OpeningHoursSpecification",
-              "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-              "opens": "09:00",
-              "closes": "19:00"
-            }
-          ],
+          "@id": "https://by-julie-deco.fr/#business",
+          "name": "By Julie Déco",
+          "description": "Conseil en décoration intérieure 100% en ligne. Moodboard personnalisé, sélection mobilier et accompagnement complet pour créer un intérieur qui vous ressemble, dans votre budget.",
+          "url": "https://by-julie-deco.fr",
+          "email": "contact@by-julie-deco.fr",
           "priceRange": "€€",
           "currenciesAccepted": "EUR",
-          "paymentAccepted": "Virement bancaire",
+          "paymentAccepted": "Virement bancaire, carte bancaire",
+          "areaServed": {
+            "@type": "Country",
+            "name": "France"
+          },
           "hasOfferCatalog": {
             "@type": "OfferCatalog",
-            "name": "Services de gestion locative Bordeaux",
+            "name": "Prestations By Julie Déco",
             "itemListElement": [
               {
                 "@type": "Offer",
                 "itemOffered": {
                   "@type": "Service",
-                  "name": "Sous-location professionnelle Bordeaux",
-                  "description": "Loyer fixe garanti chaque mois via un contrat de sous-location professionnel. Zéro vacance locative, zéro gestion pour le propriétaire."
-                }
+                  "name": "Conseil déco + moodboard",
+                  "description": "Analyse de votre espace sur photos, planche tendance personnalisée, palette couleurs et matières, échange visio 45 min."
+                },
+                "price": "150",
+                "priceCurrency": "EUR"
               },
               {
                 "@type": "Offer",
                 "itemOffered": {
                   "@type": "Service",
-                  "name": "Conciergerie Airbnb Bordeaux",
-                  "description": "Gestion complète de votre location Airbnb à Bordeaux : check-in, check-out, ménage, linge, communication voyageurs, optimisation des revenus."
-                }
+                  "name": "Sélection mobilier",
+                  "description": "Sélection de 15 à 25 références mobilier avec liens d'achat directs, plan de disposition et appel de suivi."
+                },
+                "price": "250",
+                "priceCurrency": "EUR"
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Accompagnement complet",
+                  "description": "Moodboard personnalisé, sélection mobilier, 3 appels visio inclus, suivi personnalisé 30 jours, révisions illimitées."
+                },
+                "price": "490",
+                "priceCurrency": "EUR"
               }
             ]
-          },
-          "sameAs": [
-            "https://www.google.com/maps?cid=8404097505068748296"
-          ]
+          }
         },
         {
           "@type": "WebSite",
-          "@id": "https://loya-conciergerie.com/#website",
-          "url": "https://loya-conciergerie.com",
-          "name": "Loya — Conciergerie Bordeaux",
-          "description": "Conciergerie et sous-location professionnelle à Bordeaux. Gagnez plus, gérez moins."
+          "@id": "https://by-julie-deco.fr/#website",
+          "url": "https://by-julie-deco.fr",
+          "name": "By Julie Déco",
+          "description": "Conseil en décoration intérieure 100% en ligne — Moodboard, sélection mobilier, accompagnement complet.",
+          "inLanguage": "fr-FR"
         },
         {
           "@type": "FAQPage",
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "Combien coûte la conciergerie Loya à Bordeaux ?",
+              "name": "Comment fonctionne le conseil déco en ligne de By Julie Déco ?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Pour la sous-location, aucun frais — nous vous versons un loyer fixe garanti chaque mois. Pour la conciergerie, nous prenons une commission sur les revenus générés. Tout est transparent, sans frais cachés. Contactez-nous pour une estimation personnalisée et gratuite."
+                "text": "Tout se passe à distance, sans déplacement. Vous envoyez des photos de votre espace, vos envies et vos contraintes. Julie analyse votre projet, crée un moodboard personnalisé et vous guide par échange visio. Résultat : une vision claire de votre futur intérieur, sans vous déplacer."
               }
             },
             {
               "@type": "Question",
-              "name": "Quelle est la différence entre sous-location et conciergerie Airbnb ?",
+              "name": "Combien coûte une prestation By Julie Déco ?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Avec la sous-location professionnelle, vous recevez un loyer fixe garanti chaque mois, quelle que soit l'occupation. Avec la conciergerie, vous restez propriétaire-loueur et nous gérons tout à votre place en échange d'une commission. La sous-location offre plus de stabilité ; la conciergerie, plus de revenus potentiels."
+                "text": "Les formules démarrent à 150€ pour un conseil déco et moodboard personnalisé. La sélection mobilier est à 250€, et l'accompagnement complet (de A à Z) est à 490€. Toutes les formules se déroulent 100% en ligne. Paiement sécurisé à la réservation."
               }
             },
             {
               "@type": "Question",
-              "name": "Puis-je récupérer mon logement quand je veux avec Loya ?",
+              "name": "Dois-je habiter dans une ville précise pour travailler avec By Julie Déco ?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Oui. Le contrat prévoit des conditions de sortie claires et raisonnables. Nous travaillons sur des engagements adaptés à votre situation, sans vous piéger dans un bail contraignant. On en discute ensemble lors du premier échange gratuit."
+                "text": "Non. Le service est 100% en ligne, partout en France. Que vous soyez à Paris, Lyon, Bordeaux ou dans une ville plus petite, Julie vous accompagne exactement de la même façon, entièrement à distance."
               }
             },
             {
               "@type": "Question",
-              "name": "Que se passe-t-il si un voyageur cause des dégâts dans mon logement ?",
+              "name": "En combien de temps est livré le moodboard ?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Airbnb propose une protection hôte jusqu'à 3 millions d'euros. En complément, nous sélectionnons soigneusement les voyageurs et effectuons un état des lieux à chaque départ. Les incidents restent rares — et nous les gérons directement, sans vous solliciter."
+                "text": "En général sous 5 à 7 jours ouvrés après réception de toutes les informations de votre projet. Un échange visio est inclus pour présenter le moodboard et répondre à vos questions."
               }
             },
             {
               "@type": "Question",
-              "name": "Est-ce légal de sous-louer son logement à Bordeaux ?",
+              "name": "Qu'est-ce qu'un moodboard déco personnalisé ?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Oui, sous conditions. Pour un bien dont vous êtes propriétaire, c'est tout à fait légal. Nous opérons dans le strict respect de la réglementation bordelaise et vous accompagnons dans le cadre juridique adapté à votre situation."
+                "text": "Un moodboard est une planche tendance visuelle qui rassemble votre palette de couleurs, les matières, les styles de meubles et l'ambiance générale de votre futur intérieur. Il vous sert de feuille de route pour tous vos achats et vous évite les erreurs coûteuses."
               }
-            },
-            {
-              "@type": "Question",
-              "name": "Combien de temps faut-il pour démarrer avec Loya Conciergerie ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "En général 7 à 14 jours suffisent : visite du bien, photos professionnelles, création ou optimisation des annonces Airbnb. Dès que le contrat est signé, on s'occupe de tout — vous n'avez plus rien à faire."
-              }
-            }
-          ]
-        },
-        {
-          "@type": "HowTo",
-          "name": "Comment confier son logement à Loya Conciergerie Bordeaux",
-          "description": "Trois étapes simples pour déléguer la gestion de votre bien et commencer à encaisser sans rien gérer.",
-          "totalTime": "P7D",
-          "step": [
-            {
-              "@type": "HowToStep",
-              "position": "1",
-              "name": "On échange",
-              "text": "Un appel ou un message WhatsApp. On visite votre bien à Bordeaux et vous recevez une estimation gratuite sous 24h."
-            },
-            {
-              "@type": "HowToStep",
-              "position": "2",
-              "name": "On s'organise",
-              "text": "On choisit ensemble la formule adaptée — sous-location ou conciergerie — on signe le contrat et on prépare la mise en ligne. En moins d'une semaine, c'est parti."
-            },
-            {
-              "@type": "HowToStep",
-              "position": "3",
-              "name": "Vous encaissez",
-              "text": "On gère tout à votre place. Chaque mois, votre virement arrive — sans que vous ayez rien eu à faire."
             }
           ]
         }
@@ -197,15 +156,5 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>

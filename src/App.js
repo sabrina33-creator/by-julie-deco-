@@ -1,22 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
+import { trackEvent } from './analytics';
 import JDDecoHome     from './JDDecoHome';
 import JDDecoServices from './JDDecoServices';
 import imgContactBanner from './Chambre lumiere.jpg';
 
-// ─── TOKENS ───────────────────────────────────────────────────────────────────
-const C = {
-  black: '#0a0a0a',
-  white: '#ffffff',
-  gold:  '#C9A84C',
-  cream: '#fafaf8',
-  muted: '#888880',
-};
-
-const F = {
-  serif: "'Cormorant Garamond', Georgia, serif",
-  sans:  "'Jost', 'Helvetica Neue', sans-serif",
-};
+import { C, F } from './tokens';
 
 const WHATSAPP = "https://wa.me/33600000000?text=Bonjour%20By%20Julie%20D%C3%A9co%2C%20je%20souhaite%20en%20savoir%20plus.";
 const EMAIL    = "contact@by-julie-deco.fr";
@@ -34,7 +23,7 @@ function GlobalStyles() {
     const link  = document.createElement('link');
     link.id     = 'by-julie-deco-fonts';
     link.rel    = 'stylesheet';
-    link.href   = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap';
+    link.href   = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500;600&family=DM+Sans:opsz,wght@9..40,200;9..40,300&display=swap';
     document.head.appendChild(link);
   }, []);
 
@@ -63,21 +52,23 @@ function GlobalStyles() {
 
 // ─── SCROLL REVEAL ────────────────────────────────────────────────────────────
 function FadeIn({ children, delay = 0, style = {} }) {
-  const [v, setV] = useState(false);
+  const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [v, setV] = useState(reduced);
   const ref = useRef();
   useEffect(() => {
+    if (reduced) return;
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) setV(true); },
       { threshold: 0.1 }
     );
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
-  }, []);
+  }, [reduced]);
   return (
     <div ref={ref} style={{
       opacity: v ? 1 : 0,
       transform: v ? 'translateY(0)' : 'translateY(22px)',
-      transition: `opacity 0.85s ease ${delay}s, transform 0.85s ease ${delay}s`,
+      transition: reduced ? 'none' : `opacity 0.85s ease ${delay}s, transform 0.85s ease ${delay}s`,
       ...style,
     }}>
       {children}
@@ -150,14 +141,13 @@ function Header() {
         }}>
 
           {/* Logo */}
-          <Link to="/" style={{
-            fontFamily: F.serif,
-            fontSize: 'clamp(1.1rem, 1.5vw, 1.35rem)',
-            fontWeight: 300, fontStyle: 'italic',
-            color: fg, letterSpacing: '0.04em',
-            transition: 'color 0.4s',
-          }}>
-            By Julie Déco
+          <Link to="/" style={{ textDecoration: 'none', lineHeight: 1, display: 'flex', alignItems: 'center' }}>
+            <svg viewBox="0 0 290 110" width="140" height="53" xmlns="http://www.w3.org/2000/svg" style={{display:'block'}}>
+              <text x="2" y="18" style={{fontFamily:"'DM Sans',sans-serif",fontWeight:200,fontSize:'11px',letterSpacing:'3px',fill:fg,transition:'fill 0.4s'}}>by</text>
+              <text x="1" y="84" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,fontSize:'65px',letterSpacing:'7px',fill:fg,transition:'fill 0.4s'}}>JULIE</text>
+              <line x1="0" y1="93" x2="290" y2="93" style={{stroke:'#C9A84C',strokeWidth:0.85}}/>
+              <text x="289" y="108" style={{fontFamily:"'DM Sans',sans-serif",fontWeight:200,fontSize:'10.5px',letterSpacing:'4px',fill:fg,transition:'fill 0.4s',textAnchor:'end'}}>déco</text>
+            </svg>
           </Link>
 
           {/* Desktop nav */}
@@ -179,13 +169,15 @@ function Header() {
               );
             })}
 
-            <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '9px 20px',
-              background: C.gold, color: C.black,
-              fontFamily: F.sans, fontSize: '0.68rem', fontWeight: 600,
-              letterSpacing: '0.16em', textTransform: 'uppercase',
-            }}>
+            <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
+              onClick={() => trackEvent('whatsapp_click', { location: 'header' })}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '13px 20px', minHeight: 44,
+                background: C.gold, color: C.black,
+                fontFamily: F.sans, fontSize: '0.68rem', fontWeight: 600,
+                letterSpacing: '0.16em', textTransform: 'uppercase',
+              }}>
               <WhatsAppIcon size={13} />
               WhatsApp
             </a>
@@ -196,6 +188,7 @@ function Header() {
             className="jd-hamburger"
             onClick={() => setMenuOpen(o => !o)}
             aria-label="Menu"
+            aria-expanded={menuOpen}
             style={{
               display: 'none', alignItems: 'center', justifyContent: 'center',
               background: 'transparent', border: 'none', cursor: 'pointer', padding: 4,
@@ -228,12 +221,14 @@ function Header() {
               {label}
             </Link>
           ))}
-          <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 10, alignSelf: 'flex-start',
-            padding: '13px 26px', background: C.gold, color: C.black,
-            fontFamily: F.sans, fontSize: '0.72rem', fontWeight: 600,
-            letterSpacing: '0.18em', textTransform: 'uppercase',
-          }}>
+          <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
+            onClick={() => trackEvent('whatsapp_click', { location: 'mobile_menu' })}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10, alignSelf: 'flex-start',
+              padding: '13px 26px', background: C.gold, color: C.black,
+              fontFamily: F.sans, fontSize: '0.72rem', fontWeight: 600,
+              letterSpacing: '0.18em', textTransform: 'uppercase',
+            }}>
             <WhatsAppIcon size={14} />
             Écrire sur WhatsApp
           </a>
@@ -265,9 +260,12 @@ function Footer() {
 
           {/* Marque */}
           <div>
-            <p style={{ fontFamily: F.serif, fontSize: '1.4rem', fontWeight: 300, fontStyle: 'italic', color: C.white, marginBottom: 8 }}>
-              By Julie Déco
-            </p>
+            <svg viewBox="0 0 290 110" width="140" height="53" xmlns="http://www.w3.org/2000/svg" style={{display:'block',marginBottom:8}}>
+              <text x="2" y="18" style={{fontFamily:"'DM Sans',sans-serif",fontWeight:200,fontSize:'11px',letterSpacing:'3px',fill:'#FFFFFF'}}>by</text>
+              <text x="1" y="84" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,fontSize:'65px',letterSpacing:'7px',fill:'#FFFFFF'}}>JULIE</text>
+              <line x1="0" y1="93" x2="290" y2="93" style={{stroke:'#C9A84C',strokeWidth:0.85}}/>
+              <text x="289" y="108" style={{fontFamily:"'DM Sans',sans-serif",fontWeight:200,fontSize:'10.5px',letterSpacing:'4px',fill:'#FFFFFF',textAnchor:'end'}}>déco</text>
+            </svg>
             <p style={{ fontFamily: F.sans, fontSize: '0.72rem', color: 'rgba(255,255,255,0.28)', fontWeight: 300, letterSpacing: '0.06em' }}>
               Conseil déco 100% en ligne
             </p>
@@ -287,18 +285,22 @@ function Footer() {
 
           {/* Contact */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" style={{
-              display: 'flex', alignItems: 'center', gap: 10,
-              fontFamily: F.sans, fontSize: '0.78rem', fontWeight: 400, color: C.gold,
-            }}>
+            <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
+              onClick={() => trackEvent('whatsapp_click', { location: 'footer' })}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                fontFamily: F.sans, fontSize: '0.78rem', fontWeight: 400, color: C.gold,
+              }}>
               <WhatsAppIcon size={14} color={C.gold} />
               WhatsApp
             </a>
-            <a href={`mailto:${EMAIL}`} style={{
-              display: 'flex', alignItems: 'center', gap: 10,
-              fontFamily: F.sans, fontSize: '0.78rem', fontWeight: 300,
-              color: 'rgba(255,255,255,0.38)',
-            }}>
+            <a href={`mailto:${EMAIL}`}
+              onClick={() => trackEvent('email_click', { location: 'footer' })}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                fontFamily: F.sans, fontSize: '0.78rem', fontWeight: 300,
+                color: 'rgba(255,255,255,0.38)',
+              }}>
               <MailIcon size={14} color="rgba(255,255,255,0.38)" />
               {EMAIL}
             </a>
@@ -306,7 +308,7 @@ function Footer() {
         </div>
 
         <p style={{ fontFamily: F.sans, fontSize: '0.62rem', color: 'rgba(255,255,255,0.15)', textAlign: 'center', letterSpacing: '0.05em' }}>
-          © 2024 By Julie Déco · Tous droits réservés
+          © 2026 By Julie Déco · Tous droits réservés
         </p>
       </div>
     </footer>
@@ -314,9 +316,19 @@ function Footer() {
 }
 
 // ─── PAGE CONTACT ─────────────────────────────────────────────────────────────
+const schemaContact = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://by-julie-deco.fr' },
+    { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://by-julie-deco.fr/contact' },
+  ],
+};
+
 function PageContact() {
   return (
     <div style={{ background: C.white }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaContact) }} />
 
       {/* Banner plein largeur */}
       <div style={{
@@ -347,12 +359,6 @@ function PageContact() {
       }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <FadeIn>
-            <span style={{
-              display: 'block', fontFamily: F.sans, fontSize: '0.62rem',
-              letterSpacing: '0.38em', textTransform: 'uppercase', color: C.gold, marginBottom: 18,
-            }}>
-              By Julie Déco
-            </span>
             <h1 style={{
               fontFamily: F.serif, fontSize: 'clamp(3rem, 7vw, 6.5rem)',
               fontWeight: 300, fontStyle: 'italic', color: C.black,
@@ -382,6 +388,7 @@ function PageContact() {
             <FadeIn delay={0.1}>
               <a
                 href={WHATSAPP} target="_blank" rel="noopener noreferrer"
+                onClick={() => trackEvent('whatsapp_click', { location: 'contact_page' })}
                 style={{
                   display: 'flex', flexDirection: 'column',
                   padding: 'clamp(36px, 5vw, 52px) clamp(28px, 4vw, 44px)',
@@ -408,6 +415,7 @@ function PageContact() {
             <FadeIn delay={0.18}>
               <a
                 href={`mailto:${EMAIL}`}
+                onClick={() => trackEvent('email_click', { location: 'contact_page' })}
                 style={{
                   display: 'flex', flexDirection: 'column',
                   padding: 'clamp(36px, 5vw, 52px) clamp(28px, 4vw, 44px)',
@@ -444,9 +452,25 @@ function PageContact() {
 }
 
 // ─── APP ──────────────────────────────────────────────────────────────────────
+const PAGE_TITLES = {
+  '/':            'By Julie Déco — L\'œil déco qu\'il vous manquait',
+  '/prestations': 'Prestations — By Julie Déco',
+  '/contact':     'Contact — By Julie Déco',
+};
+
 function AppContent() {
   const location = useLocation();
+
   useEffect(() => { window.scrollTo(0, 0); }, [location.pathname]);
+
+  useEffect(() => {
+    const title = PAGE_TITLES[location.pathname] || 'By Julie Déco';
+    document.title = title;
+    trackEvent('page_view', {
+      page_title: title,
+      page_location: window.location.href,
+    });
+  }, [location.pathname]);
 
   return (
     <>

@@ -1,34 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { trackEvent } from './analytics';
 import imgServicesBanner from './Salon lumiere.jpg';
 
-// ─── TOKENS (identiques à JDDecoHome) ─────────────────────────────────────────
-const C = {
-  black:  '#0a0a0a',
-  white:  '#ffffff',
-  gold:   '#C9A84C',
-  cream:  '#fafaf8',
-  muted:  '#888880',
-  dim:    '#444440',
-};
-
-const F = {
-  serif: "'Cormorant Garamond', Georgia, serif",
-  sans:  "'Jost', 'Helvetica Neue', sans-serif",
-};
+import { C, F } from './tokens';
 
 const ease = [0.22, 1, 0.36, 1];
 
 // ─── REVEAL ───────────────────────────────────────────────────────────────────
 function Reveal({ children, delay = 0, y = 28, style }) {
-  const ref  = useRef(null);
-  const seen = useInView(ref, { once: true, amount: 0.15 });
+  const ref     = useRef(null);
+  const seen    = useInView(ref, { once: true, amount: 0.15 });
+  const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={seen ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1, delay, ease }}
+      initial={{ opacity: reduced ? 1 : 0, y: reduced ? 0 : y }}
+      animate={seen || reduced ? { opacity: 1, y: 0 } : {}}
+      transition={reduced ? { duration: 0 } : { duration: 1, delay, ease }}
       style={style}
     >
       {children}
@@ -61,7 +50,7 @@ const SERVICES = [
     title: 'Conseil déco\n+ moodboard',
     price: '150',
     desc: 'Un regard expert sur votre espace, une planche tendance personnalisée.',
-    detail: 'Idéal pour cadrer votre projet et partir dans la bonne direction.',
+    detail: 'Pour avoir enfin une vision claire avant d\'acheter quoi que ce soit.',
     includes: ['Analyse de votre espace (sur photos)', 'Planche tendance sur-mesure', 'Palette couleurs & matières', '1 échange visio de 45 min'],
     dark: false,
   },
@@ -69,8 +58,8 @@ const SERVICES = [
     n: '02',
     title: 'Sélection\nmobilier',
     price: '250',
-    desc: 'Une sélection sur-mesure de meubles adaptés à votre style et votre budget.',
-    detail: 'Gagnez des heures de recherche, évitez les erreurs coûteuses.',
+    desc: 'Je cherche à votre place. Vous recevez une liste de meubles prêts à commander, adaptés à votre espace et vos goûts.',
+    detail: "Fini les heures à comparer des sites et les mauvais achats.",
     includes: ['Sélection de 15 à 25 références', 'Liens d\'achat directs', 'Plan de disposition', '1 appel de suivi'],
     dark: false,
   },
@@ -78,8 +67,8 @@ const SERVICES = [
     n: '03',
     title: 'Accompagnement\ncomplet',
     price: '490',
-    desc: 'De l\'analyse de votre espace jusqu\'au résultat final, je vous guide à chaque étape.',
-    detail: 'La formule tout-en-un, de A à Z.',
+    desc: 'De la première vision à la commande finale, je m\'occupe de tout. Vous validez, je propose.',
+    detail: 'Idéal si vous voulez déléguer et ne plus y penser.',
     includes: ['Tout le contenu des formules 01 & 02', '3 appels visio inclus', 'Suivi personnalisé 30 jours', 'Révisions illimitées'],
     dark: true,
   },
@@ -103,10 +92,9 @@ function PageHeader() {
 
           {/* Left — title */}
           <Reveal>
-            <Label>By Julie Déco</Label>
             <h1 style={{
               fontFamily: F.serif,
-              fontSize: 'clamp(3rem, 7vw, 6.5rem)',
+              fontSize: 'clamp(3rem, 7vw, 6rem)',
               fontWeight: 300,
               fontStyle: 'italic',
               color: C.black,
@@ -175,13 +163,10 @@ function ServiceCard({ service, delay }) {
         style={{
           padding: 'clamp(36px, 5vw, 52px) clamp(28px, 4vw, 44px)',
           background: dark ? C.black : C.white,
-          border: dark ? 'none' : `1px solid rgba(10,10,10,0.09)`,
-          boxShadow: hovered
-            ? dark
-              ? `0 24px 60px rgba(10,10,10,0.35)`
-              : `0 24px 60px rgba(10,10,10,0.1)`
-            : 'none',
-          transition: 'box-shadow 0.4s ease',
+          border: dark
+            ? `1px solid ${hovered ? 'rgba(201,168,76,0.25)' : 'transparent'}`
+            : `1px solid ${hovered ? 'rgba(10,10,10,0.22)' : 'rgba(10,10,10,0.09)'}`,
+          transition: 'border-color 0.35s ease',
           display: 'flex',
           flexDirection: 'column',
           height: '100%',
@@ -340,6 +325,7 @@ function ServiceCard({ service, delay }) {
           href="https://wa.me/33600000000"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => trackEvent('service_cta_clicked', { service_name: service.title.replace('\n', ' '), price: service.price })}
           whileHover={{ x: 4 }}
           transition={{ duration: 0.25, ease }}
           style={{
@@ -465,7 +451,7 @@ function CTASection() {
             letterSpacing: '-0.015em',
             margin: '0 0 20px',
           }}>
-            Une question sur les formules&nbsp;?
+            Pas sûre de la formule qui vous convient&nbsp;?
           </h2>
 
           <p style={{
@@ -484,6 +470,7 @@ function CTASection() {
             href="https://wa.me/33600000000?text=Bonjour%20By%20Julie%20D%C3%A9co%2C%20j%27ai%20une%20question%20sur%20vos%20formules."
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent('whatsapp_click', { location: 'services_cta' })}
             whileHover={{ scale: 1.025, opacity: 0.9 }}
             whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.2 }}
@@ -529,6 +516,56 @@ function WhatsAppIcon() {
   );
 }
 
+// ─── SCHEMA ───────────────────────────────────────────────────────────────────
+const schemaPrestations = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://by-julie-deco.fr' },
+        { '@type': 'ListItem', position: 2, name: 'Prestations', item: 'https://by-julie-deco.fr/prestations' },
+      ],
+    },
+    {
+      '@type': 'ItemList',
+      name: 'Prestations By Julie Déco',
+      itemListElement: [
+        {
+          '@type': 'ListItem', position: 1,
+          item: {
+            '@type': 'Service',
+            name: 'Conseil déco + moodboard',
+            description: 'Analyse de votre espace sur photos, planche tendance personnalisée, palette couleurs & matières, échange visio 45 min.',
+            offers: { '@type': 'Offer', price: '150', priceCurrency: 'EUR' },
+            provider: { '@id': 'https://by-julie-deco.fr/#business' },
+          },
+        },
+        {
+          '@type': 'ListItem', position: 2,
+          item: {
+            '@type': 'Service',
+            name: 'Sélection mobilier',
+            description: 'Sélection de 15 à 25 références mobilier avec liens d\'achat directs, plan de disposition et appel de suivi.',
+            offers: { '@type': 'Offer', price: '250', priceCurrency: 'EUR' },
+            provider: { '@id': 'https://by-julie-deco.fr/#business' },
+          },
+        },
+        {
+          '@type': 'ListItem', position: 3,
+          item: {
+            '@type': 'Service',
+            name: 'Accompagnement complet',
+            description: 'Moodboard, sélection mobilier, 3 appels visio inclus, suivi personnalisé 30 jours, révisions illimitées.',
+            offers: { '@type': 'Offer', price: '490', priceCurrency: 'EUR' },
+            provider: { '@id': 'https://by-julie-deco.fr/#business' },
+          },
+        },
+      ],
+    },
+  ],
+};
+
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
 export default function JDDecoServices() {
   useEffect(() => {
@@ -542,6 +579,7 @@ export default function JDDecoServices() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaPrestations) }} />
       <style>{`
         #jd-root *, #jd-root *::before, #jd-root *::after {
           box-sizing: border-box;

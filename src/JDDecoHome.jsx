@@ -1,39 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { trackEvent } from './analytics';
 import imgSurMesure from './salon canape design.jpg';
 import imgBudget    from './Cuisine blanchebeige.jpg';
 import imgDurable   from './Salon beige.jpg';
 import imgAvant     from './Avant.jpeg';
 import imgApres     from './Apres.jpeg';
 
-// ─── TOKENS ───────────────────────────────────────────────────────────────────
-const C = {
-  black:     '#0a0a0a',
-  white:     '#ffffff',
-  gold:      '#C9A84C',
-  cream:     '#fafaf8',
-  muted:     '#888880',
-  dim:       '#444440',
-  ghostLine: 'rgba(201,168,76,0.18)',
-};
-
-const F = {
-  serif: "'Cormorant Garamond', Georgia, serif",
-  sans:  "'Jost', 'Helvetica Neue', sans-serif",
-};
+import { C, F } from './tokens';
 
 const ease = [0.22, 1, 0.36, 1];
 
 // ─── SCROLL REVEAL ────────────────────────────────────────────────────────────
 function Reveal({ children, delay = 0, y = 28, style }) {
-  const ref  = useRef(null);
-  const seen = useInView(ref, { once: true, amount: 0.15 });
+  const ref     = useRef(null);
+  const seen    = useInView(ref, { once: true, amount: 0.15 });
+  const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={seen ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1, delay, ease }}
+      initial={{ opacity: reduced ? 1 : 0, y: reduced ? 0 : y }}
+      animate={seen || reduced ? { opacity: 1, y: 0 } : {}}
+      transition={reduced ? { duration: 0 } : { duration: 1, delay, ease }}
       style={style}
     >
       {children}
@@ -61,6 +49,7 @@ function Label({ children }) {
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
 function Hero() {
+  const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   return (
     <section style={{
       position: 'relative',
@@ -99,24 +88,6 @@ function Hero() {
         `,
       }} />
 
-      {/* Brand name — top left */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.15, ease }}
-        style={{
-          position: 'absolute',
-          top: 'clamp(28px, 4vw, 52px)',
-          left:  'clamp(28px, 6vw, 80px)',
-          fontFamily: F.serif,
-          fontSize: 'clamp(1.1rem, 1.6vw, 1.4rem)',
-          fontWeight: 300,
-          letterSpacing: '0.04em',
-          color: C.white,
-        }}
-      >
-        By Julie Déco
-      </motion.div>
 
       {/* Bottom-left editorial layout */}
       <div style={{
@@ -132,7 +103,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.35, ease }}
         >
-          <Label>Conseil en décoration intérieure</Label>
+          <Label>Décoration intérieure · 100% en ligne</Label>
         </motion.div>
 
         <motion.h1
@@ -151,7 +122,7 @@ function Hero() {
             maxWidth: '16ch',
           }}
         >
-          Un intérieur qui vous ressemble, pour longtemps.
+          L'œil déco qu'il vous manquait.
         </motion.h1>
 
         <motion.div
@@ -174,12 +145,13 @@ function Hero() {
             lineHeight: 1.65,
             letterSpacing: '0.01em',
           }}>
-            Conseil déco 100% en ligne,<br />
-            sur-mesure et accessible.
+            Vous avez des envies mais pas l'œil pour les assembler.<br />
+            Je m'en charge, à distance, dans votre budget.
           </p>
 
           <motion.a
             href="#prestations"
+            onClick={() => trackEvent('cta_clicked', { location: 'hero', button_text: 'Découvrir les prestations' })}
             whileHover={{ backgroundColor: C.gold, color: C.black }}
             transition={{ duration: 0.22 }}
             style={{
@@ -230,7 +202,7 @@ function Hero() {
           Scroll
         </span>
         <motion.div
-          animate={{ scaleY: [0, 1, 0] }}
+          animate={reduced ? {} : { scaleY: [0, 1, 0] }}
           transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
           style={{
             width: 1,
@@ -249,19 +221,19 @@ const PILLARS = [
   {
     n: '01',
     title: 'Sur-mesure',
-    body: "Chaque projet est une conversation. Nous partons de vos envies, votre mode de vie et vos contraintes — pour créer un espace qui n'appartient qu'à vous.",
+    body: "Chaque projet part d'une conversation. Vos envies, votre mode de vie, vos contraintes : je pars de tout ça pour créer un espace qui n'appartient qu'à vous.",
     img: imgSurMesure,
   },
   {
     n: '02',
     title: 'Budget maîtrisé',
-    body: 'Transparence totale. Nous travaillons dans votre enveloppe, avec des choix réfléchis et des prestataires sélectionnés pour leur rapport qualité-prix.',
+    body: "Je travaille dans votre enveloppe, avec des choix réfléchis et des références sélectionnées pour leur rapport qualité-prix. Pas de surprise.",
     img: imgBudget,
   },
   {
     n: '03',
     title: 'Durable dans le temps',
-    body: 'Des matières, des teintes, des formes intemporelles. Un intérieur pensé pour traverser les modes avec élégance, saison après saison.',
+    body: "Des matières et des couleurs qui tiennent dans le temps. Un intérieur qu'on n'a pas envie de refaire dans deux ans.",
     img: imgDurable,
   },
 ];
@@ -287,7 +259,6 @@ function WhySection() {
             borderBottom: `1px solid rgba(10,10,10,0.1)`,
           }}>
             <div>
-              <Label>Notre approche</Label>
               <h2 style={{
                 fontFamily: F.serif,
                 fontSize: 'clamp(2.2rem, 5vw, 4.2rem)',
@@ -298,7 +269,7 @@ function WhySection() {
                 letterSpacing: '-0.015em',
                 margin: 0,
               }}>
-                Pourquoi By Julie Déco
+                Fini le doute avant d'acheter.
               </h2>
             </div>
             <p style={{
@@ -310,7 +281,7 @@ function WhySection() {
               fontWeight: 300,
               margin: 0,
             }}>
-              Une approche humaine du conseil déco, pensée pour vous accompagner à chaque étape.
+              Un regard extérieur, de vrais choix à votre place, zéro erreur coûteuse.
             </p>
           </div>
         </Reveal>
@@ -431,7 +402,6 @@ function BeforeAfterSection() {
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
         <Reveal style={{ marginBottom: 'clamp(44px, 5vw, 64px)' }}>
-          <Label>Transformations</Label>
           <h2 style={{
             fontFamily: F.serif,
             fontSize: 'clamp(2.2rem, 5vw, 4.2rem)',
@@ -466,6 +436,7 @@ function BeforeAfterSection() {
             <img
               src={imgApres}
               alt="Après rénovation"
+              loading="lazy"
               draggable={false}
               style={{
                 position: 'absolute',
@@ -484,6 +455,7 @@ function BeforeAfterSection() {
             <img
               src={imgAvant}
               alt="Avant rénovation"
+              loading="lazy"
               draggable={false}
               style={{
                 position: 'absolute',
@@ -593,6 +565,90 @@ function BeforeAfterSection() {
   );
 }
 
+// ─── FAQ ──────────────────────────────────────────────────────────────────────
+const FAQS = [
+  {
+    q: 'Comment fonctionne le conseil déco en ligne ?',
+    a: "Vous envoyez des photos de votre espace et quelques notes sur vos envies. Julie analyse ça, crée votre moodboard et planifie un échange visio pour vous le présenter. Pas de déplacement, tout se passe à distance.",
+  },
+  {
+    q: 'Combien coûtent les prestations ?',
+    a: "Les formules démarrent à 150€ pour un conseil déco avec moodboard. La sélection mobilier est à 250€, et l'accompagnement complet à 490€. Vous payez à la réservation.",
+  },
+  {
+    q: 'Dois-je habiter dans une ville précise ?',
+    a: "Non, le service fonctionne partout en France. Que vous soyez en ville ou à la campagne, c'est pareil : tout se passe à distance.",
+  },
+  {
+    q: 'En combien de temps reçois-je mon moodboard ?',
+    a: "En général sous 5 à 7 jours ouvrés. Julie planifie ensuite un échange visio pour vous le présenter et ajuster si besoin.",
+  },
+  {
+    q: "Qu'est-ce qu'un moodboard déco personnalisé ?",
+    a: "C'est une planche visuelle qui résume l'ambiance de votre futur intérieur : couleurs, matières, type de mobilier. Vous vous en servez comme référence pour tous vos achats, pour ne pas vous disperser.",
+  },
+];
+
+function FAQSection() {
+  return (
+    <section style={{
+      padding: 'clamp(88px, 13vw, 168px) clamp(28px, 8vw, 120px)',
+      background: C.white,
+    }}>
+      <div style={{ maxWidth: 760, margin: '0 auto' }}>
+        <Reveal>
+          <h2 style={{
+            fontFamily: F.serif,
+            fontSize: 'clamp(2rem, 4vw, 3.5rem)',
+            fontWeight: 300,
+            fontStyle: 'italic',
+            color: C.black,
+            lineHeight: 1.15,
+            letterSpacing: '-0.015em',
+            margin: '0 0 clamp(48px, 6vw, 72px)',
+          }}>
+            Questions fréquentes
+          </h2>
+        </Reveal>
+
+        <div>
+          {FAQS.map((item, i) => (
+            <Reveal key={i} delay={i * 0.07}>
+              <div style={{
+                padding: 'clamp(24px, 3vw, 36px) 0',
+                borderTop: `1px solid rgba(10,10,10,0.08)`,
+              }}>
+                <p style={{
+                  fontFamily: F.serif,
+                  fontSize: 'clamp(1.05rem, 1.6vw, 1.3rem)',
+                  fontWeight: 400,
+                  fontStyle: 'italic',
+                  color: C.black,
+                  lineHeight: 1.3,
+                  margin: '0 0 12px',
+                }}>
+                  {item.q}
+                </p>
+                <p style={{
+                  fontFamily: F.sans,
+                  fontSize: '0.88rem',
+                  fontWeight: 300,
+                  color: C.muted,
+                  lineHeight: 1.9,
+                  margin: 0,
+                }}>
+                  {item.a}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+          <div style={{ height: 1, background: 'rgba(10,10,10,0.08)' }} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── CTA FINAL ────────────────────────────────────────────────────────────────
 function CTASection() {
   return (
@@ -631,8 +687,6 @@ function CTASection() {
 
       <div style={{ maxWidth: 680, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
         <Reveal>
-          <Label>Commençons ensemble</Label>
-
           <h2 style={{
             fontFamily: F.serif,
             fontSize: 'clamp(2.6rem, 6vw, 5.2rem)',
@@ -643,7 +697,7 @@ function CTASection() {
             letterSpacing: '-0.015em',
             margin: '0 0 24px',
           }}>
-            Prête à transformer votre intérieur&nbsp;?
+            Et si on commençait&nbsp;?
           </h2>
 
           <p style={{
@@ -654,7 +708,7 @@ function CTASection() {
             fontWeight: 300,
             margin: '0 0 52px',
           }}>
-            Un premier échange de 20 minutes pour tout comprendre.<br />
+            Un premier échange de 20 minutes pour cadrer votre projet.<br />
             Sans engagement. Sans prise de tête.
           </p>
 
@@ -662,6 +716,7 @@ function CTASection() {
             href="https://wa.me/33600000000?text=Bonjour%20By%20Julie%20D%C3%A9co%2C%20je%20voudrais%20en%20savoir%20plus%20sur%20vos%20prestations."
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent('whatsapp_click', { location: 'home_cta' })}
             whileHover={{ scale: 1.025, opacity: 0.9 }}
             whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.2 }}
@@ -735,6 +790,7 @@ export default function JDDecoHome() {
         <Hero />
         <WhySection />
         <BeforeAfterSection />
+        <FAQSection />
         <CTASection />
       </div>
     </>

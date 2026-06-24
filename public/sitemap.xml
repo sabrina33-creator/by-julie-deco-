@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://loya-conciergerie.com/</loc>
-    <lastmod>2026-06-10</lastmod>
+    <loc>https://by-julie-deco.fr/</loc>
+    <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://loya-conciergerie.com/services</loc>
-    <lastmod>2026-06-10</lastmod>
+    <loc>https://by-julie-deco.fr/prestations</loc>
+    <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://loya-conciergerie.com/contact</loc>
-    <lastmod>2026-06-10</lastmod>
+    <loc>https://by-julie-deco.fr/contact</loc>
+    <lastmod>2026-06-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
