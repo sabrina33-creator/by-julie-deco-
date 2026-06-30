@@ -1,11 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { trackEvent } from './analytics';
-import imgSurMesure from './salon canape design.jpg';
-import imgBudget    from './Cuisine blanchebeige.jpg';
-import imgDurable   from './Salon beige.jpg';
-import imgAvant     from './Avant.jpeg';
-import imgApres     from './Apres.jpeg';
+import imgSurMesure    from './salon canape design.jpg';
+import imgBudget       from './Cuisine blanchebeige.jpg';
+import imgDurable      from './Salon beige.jpg';
+import imgAvant        from './Avant.jpeg';
+import imgApres        from './Apres.jpeg';
+import imgCuisineAv    from './cuisine avant.png';
+import imgCuisineAp    from './cuisine apres.png';
+import imgCuisine2Av   from './cuisine derriere avant.jpeg';
+import imgCuisine2Ap   from './Cuisine derriere apres.jpeg';
+import imgSdbAv        from './SDB avant.png';
+import imgSdbAp        from './SDB apres.png';
 
 import { C, F } from './tokens';
 
@@ -565,6 +571,148 @@ function BeforeAfterSection() {
   );
 }
 
+// ─── RÉALISATIONS ─────────────────────────────────────────────────────────────
+const REALISATIONS = [
+  { label: 'Cuisine',       avant: imgCuisineAv,  apres: imgCuisineAp  },
+  { label: 'Cuisine II',    avant: imgCuisine2Av, apres: imgCuisine2Ap },
+  { label: 'Salle de bain', avant: imgSdbAv,      apres: imgSdbAp      },
+];
+
+function RealisationsSection() {
+  return (
+    <section style={{
+      padding: 'clamp(88px, 13vw, 168px) clamp(28px, 8vw, 120px)',
+      background: C.white,
+    }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+
+        <Reveal>
+          <div style={{
+            display: 'flex',
+            alignItems: 'flex-end',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 16,
+            paddingBottom: 48,
+            marginBottom: 72,
+            borderBottom: '1px solid rgba(10,10,10,0.1)',
+          }}>
+            <div>
+              <span style={{
+                fontFamily: F.sans,
+                fontSize: '0.6rem',
+                letterSpacing: '0.32em',
+                textTransform: 'uppercase',
+                color: C.gold,
+                display: 'block',
+                marginBottom: 14,
+                fontWeight: 400,
+              }}>
+                Avant / Après
+              </span>
+              <h2 style={{
+                fontFamily: F.serif,
+                fontSize: 'clamp(2.2rem, 5vw, 4.2rem)',
+                fontWeight: 300,
+                fontStyle: 'italic',
+                color: C.black,
+                lineHeight: 1.15,
+                letterSpacing: '-0.015em',
+                margin: 0,
+              }}>
+                Mes réalisations.
+              </h2>
+            </div>
+          </div>
+        </Reveal>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(56px, 8vw, 96px)' }}>
+          {REALISATIONS.map((r, i) => (
+            <Reveal key={r.label} delay={i * 0.09}>
+              <div>
+                <p style={{
+                  fontFamily: F.sans,
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: C.muted,
+                  margin: '0 0 16px',
+                  fontWeight: 400,
+                }}>
+                  {r.label}
+                </p>
+
+                <div
+                  className="real-pair"
+                  style={{
+                    display: 'flex',
+                    gap: 1,
+                    background: `rgba(201,168,76,0.22)`,
+                  }}
+                >
+                  <div style={{ flex: 1, position: 'relative', minWidth: 0 }}>
+                    <img
+                      src={r.avant}
+                      alt={`${r.label} — avant`}
+                      loading="lazy"
+                      style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block' }}
+                    />
+                    <span style={{
+                      position: 'absolute',
+                      bottom: 14,
+                      left: 14,
+                      fontFamily: F.sans,
+                      fontSize: '0.55rem',
+                      letterSpacing: '0.28em',
+                      textTransform: 'uppercase',
+                      color: C.gold,
+                      background: 'rgba(255,255,255,0.93)',
+                      padding: '4px 10px',
+                      fontWeight: 400,
+                    }}>
+                      Avant
+                    </span>
+                  </div>
+
+                  <div style={{ flex: 1, position: 'relative', minWidth: 0 }}>
+                    <img
+                      src={r.apres}
+                      alt={`${r.label} — après`}
+                      loading="lazy"
+                      style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block' }}
+                    />
+                    <span style={{
+                      position: 'absolute',
+                      bottom: 14,
+                      right: 14,
+                      fontFamily: F.sans,
+                      fontSize: '0.55rem',
+                      letterSpacing: '0.28em',
+                      textTransform: 'uppercase',
+                      color: C.gold,
+                      background: 'rgba(255,255,255,0.93)',
+                      padding: '4px 10px',
+                      fontWeight: 400,
+                    }}>
+                      Après
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .real-pair { flex-direction: column !important; gap: 2px !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
 const FAQS = [
   {
@@ -790,6 +938,7 @@ export default function JDDecoHome() {
         <Hero />
         <WhySection />
         <BeforeAfterSection />
+        <RealisationsSection />
         <FAQSection />
         <CTASection />
       </div>
