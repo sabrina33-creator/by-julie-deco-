@@ -1,11 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { trackEvent } from './analytics';
 import imgSurMesure    from './salon canape design.jpg';
 import imgBudget       from './Cuisine blanchebeige.jpg';
 import imgDurable      from './Salon beige.jpg';
-import imgAvant        from './Avant.jpeg';
-import imgApres        from './Apres.jpeg';
 import imgCuisineAv    from './cuisine avant.png';
 import imgCuisineAp    from './cuisine apres.png';
 import imgCuisine2Av   from './cuisine derriere avant.jpeg';
@@ -360,212 +358,6 @@ function WhySection() {
             </Reveal>
           ))}
         </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── BEFORE / AFTER ───────────────────────────────────────────────────────────
-function BeforeAfterSection() {
-  const [pos, setPos] = useState(50);
-  const containerRef = useRef(null);
-  const dragging     = useRef(false);
-
-  useEffect(() => {
-    const move = (e) => {
-      if (!dragging.current || !containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const cx   = e.touches ? e.touches[0].clientX : e.clientX;
-      setPos(Math.max(0, Math.min(100, ((cx - rect.left) / rect.width) * 100)));
-    };
-    const up = () => { dragging.current = false; };
-
-    window.addEventListener('mousemove', move);
-    window.addEventListener('mouseup', up);
-    window.addEventListener('touchmove', move, { passive: true });
-    window.addEventListener('touchend', up);
-    return () => {
-      window.removeEventListener('mousemove', move);
-      window.removeEventListener('mouseup', up);
-      window.removeEventListener('touchmove', move);
-      window.removeEventListener('touchend', up);
-    };
-  }, []);
-
-  const start = (e) => {
-    dragging.current = true;
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const cx   = e.touches ? e.touches[0].clientX : e.clientX;
-    setPos(Math.max(0, Math.min(100, ((cx - rect.left) / rect.width) * 100)));
-  };
-
-  return (
-    <section style={{
-      padding: 'clamp(88px, 13vw, 168px) clamp(28px, 8vw, 120px)',
-      background: C.cream,
-    }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-
-        <Reveal style={{ marginBottom: 'clamp(44px, 5vw, 64px)' }}>
-          <h2 style={{
-            fontFamily: F.serif,
-            fontSize: 'clamp(2.2rem, 5vw, 4.2rem)',
-            fontWeight: 300,
-            fontStyle: 'italic',
-            color: C.black,
-            lineHeight: 1.15,
-            letterSpacing: '-0.015em',
-            margin: 0,
-          }}>
-            Avant / Après
-          </h2>
-        </Reveal>
-
-        <Reveal delay={0.18}>
-          {/* Slider */}
-          <div
-            ref={containerRef}
-            onMouseDown={start}
-            onTouchStart={start}
-            style={{
-              position: 'relative',
-              width: '100%',
-              aspectRatio: '3 / 2',
-              overflow: 'hidden',
-              cursor: 'ew-resize',
-              userSelect: 'none',
-              background: C.black,
-            }}
-          >
-            {/* ── APRÈS (right, always visible) ── */}
-            <img
-              src={imgApres}
-              alt="Après rénovation"
-              loading="lazy"
-              draggable={false}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center',
-                display: 'block',
-                userSelect: 'none',
-                pointerEvents: 'none',
-              }}
-            />
-
-            {/* ── AVANT (left, clipped by drag position) ── */}
-            <img
-              src={imgAvant}
-              alt="Avant rénovation"
-              loading="lazy"
-              draggable={false}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center',
-                display: 'block',
-                clipPath: `polygon(0 0, ${pos}% 0, ${pos}% 100%, 0 100%)`,
-                userSelect: 'none',
-                pointerEvents: 'none',
-              }}
-            />
-
-            {/* Divider */}
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              bottom: 0,
-              left: `${pos}%`,
-              width: 1,
-              background: 'rgba(255,255,255,0.9)',
-              transform: 'translateX(-50%)',
-              pointerEvents: 'none',
-            }}>
-              {/* Handle */}
-              <div style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: 46,
-                height: 46,
-                borderRadius: '50%',
-                background: C.white,
-                boxShadow: '0 4px 24px rgba(0,0,0,0.18)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <svg viewBox="0 0 22 14" width="22" height="14" fill="none">
-                  <path d="M1 7l4.5-5M1 7l4.5 5" stroke={C.gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M21 7l-4.5-5M21 7l-4.5 5" stroke={C.gold} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <line x1="1" y1="7" x2="21" y2="7" stroke={C.gold} strokeWidth="1" strokeOpacity="0.3"/>
-                </svg>
-              </div>
-            </div>
-
-            {/* Corner labels */}
-            {[
-              { text: 'Avant', side: 'left', x: 20 },
-              { text: 'Après', side: 'right', x: 'auto' },
-            ].map(({ text, x }) => (
-              <div key={text} style={{
-                position: 'absolute',
-                bottom: 20,
-                left:  text === 'Avant' ? 20 : 'auto',
-                right: text === 'Après' ? 20 : 'auto',
-                fontFamily: F.sans,
-                fontSize: '0.6rem',
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase',
-                color: C.white,
-                background: 'rgba(10,10,10,0.45)',
-                padding: '4px 11px',
-                backdropFilter: 'blur(4px)',
-              }}>
-                {text}
-              </div>
-            ))}
-          </div>
-
-          {/* Caption */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginTop: 20,
-            flexWrap: 'wrap',
-            gap: 8,
-          }}>
-            <p style={{
-              fontFamily: F.sans,
-              fontSize: '0.8rem',
-              color: C.muted,
-              fontWeight: 300,
-              fontStyle: 'italic',
-              margin: 0,
-            }}>
-              Transformation intérieure — Projet réel
-            </p>
-            <p style={{
-              fontFamily: F.sans,
-              fontSize: '0.6rem',
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              color: C.gold,
-              margin: 0,
-            }}>
-              ← Glissez pour comparer →
-            </p>
-          </div>
-        </Reveal>
       </div>
     </section>
   );
@@ -937,7 +729,6 @@ export default function JDDecoHome() {
       <div id="jd-root" style={{ background: C.white, color: C.black, overflowX: 'hidden' }}>
         <Hero />
         <WhySection />
-        <BeforeAfterSection />
         <RealisationsSection />
         <FAQSection />
         <CTASection />
