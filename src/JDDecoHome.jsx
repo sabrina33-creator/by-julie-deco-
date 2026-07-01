@@ -68,11 +68,11 @@ function Hero() {
       flexDirection: 'column',
     }}>
 
-      {/* Background image — slow Ken Burns */}
+      {/* Background image — slow Ken Burns zoom in */}
       <motion.div
-        initial={{ scale: 1.07 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 2.4, ease }}
+        initial={{ scale: 1.0 }}
+        animate={{ scale: 1.05 }}
+        transition={{ duration: 8, ease: 'linear' }}
         style={{
           position: 'absolute',
           inset: 0,
@@ -114,112 +114,123 @@ function Hero() {
           <Label>Décoration intérieure · 100% en ligne</Label>
         </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 32 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, delay: 0.5, ease }}
-          style={{
-            fontFamily: F.serif,
-            fontSize: 'clamp(2.8rem, 7vw, 6rem)',
-            fontWeight: 300,
-            fontStyle: 'italic',
-            color: C.white,
-            lineHeight: 1.1,
-            letterSpacing: '-0.015em',
-            margin: '0 0 clamp(20px, 3vw, 32px)',
-            maxWidth: '16ch',
-          }}
-        >
-          L'œil déco qu'il vous manquait.
-        </motion.h1>
+        {/* Title — mot par mot */}
+        <h1 style={{
+          fontFamily: F.serif,
+          fontSize: 'clamp(2.8rem, 7vw, 6rem)',
+          fontWeight: 300,
+          fontStyle: 'italic',
+          color: C.white,
+          lineHeight: 1.1,
+          letterSpacing: '-0.015em',
+          margin: '0 0 clamp(20px, 3vw, 32px)',
+          maxWidth: '16ch',
+        }}>
+          {["L'œil", 'déco', "qu'il", 'vous', 'manquait.'].map((word, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={reduced ? { duration: 0 } : { duration: 0.65, delay: 0.5 + i * 0.15, ease }}
+              style={{ display: 'inline-block', marginRight: '0.28em' }}
+            >
+              {word}
+            </motion.span>
+          ))}
+        </h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.7, ease }}
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            gap: 'clamp(20px, 4vw, 48px)',
-          }}
-        >
-          <p style={{
-            fontFamily: F.sans,
-            fontSize: 'clamp(0.88rem, 1.2vw, 1rem)',
-            fontWeight: 300,
-            color: 'rgba(255,255,255,0.62)',
-            margin: 0,
-            lineHeight: 1.65,
-            letterSpacing: '0.01em',
-          }}>
-            Vous avez des envies mais pas l'œil pour les assembler.<br />
-            Je m'en charge, à distance, dans votre budget.
-          </p>
-
-          <motion.a
-            href="#prestations"
-            onClick={() => trackEvent('cta_clicked', { location: 'hero', button_text: 'Découvrir les prestations' })}
-            whileHover={{ backgroundColor: C.gold, color: C.black }}
-            transition={{ duration: 0.22 }}
+        {/* Sous-titre + CTA */}
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: 'clamp(20px, 4vw, 48px)',
+        }}>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={reduced ? { duration: 0 } : { duration: 1.0, delay: 1.8, ease }}
             style={{
-              display: 'inline-block',
-              padding: '14px 38px',
-              border: `1px solid ${C.gold}`,
-              color: C.gold,
-              background: 'transparent',
               fontFamily: F.sans,
-              fontSize: '0.68rem',
-              fontWeight: 500,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              textDecoration: 'none',
-              whiteSpace: 'nowrap',
-              cursor: 'pointer',
+              fontSize: 'clamp(0.88rem, 1.2vw, 1rem)',
+              fontWeight: 300,
+              color: 'rgba(255,255,255,0.62)',
+              margin: 0,
+              lineHeight: 1.65,
+              letterSpacing: '0.01em',
             }}
           >
-            Découvrir les prestations
-          </motion.a>
-        </motion.div>
+            Vous avez des envies mais pas l'œil pour les assembler.<br />
+            Je m'en charge, à distance, dans votre budget.
+          </motion.p>
+
+          {/* CTA — rebond au chargement */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.82 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={reduced ? { duration: 0 } : { type: 'spring', stiffness: 340, damping: 18, delay: 2.3 }}
+          >
+            <motion.a
+              href="#prestations"
+              onClick={() => trackEvent('cta_clicked', { location: 'hero', button_text: 'Découvrir les prestations' })}
+              whileHover={{ backgroundColor: C.gold, color: C.black }}
+              transition={{ duration: 0.22 }}
+              style={{
+                display: 'inline-block',
+                padding: '14px 38px',
+                border: `1px solid ${C.gold}`,
+                color: C.gold,
+                background: 'transparent',
+                fontFamily: F.sans,
+                fontSize: '0.68rem',
+                fontWeight: 500,
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                whiteSpace: 'nowrap',
+                cursor: 'pointer',
+              }}
+            >
+              Découvrir les prestations
+            </motion.a>
+          </motion.div>
+        </div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8, duration: 1 }}
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          right: 'clamp(60px, 7vw, 96px)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 10,
-          paddingBottom: 32,
-        }}
-      >
-        <span style={{
-          fontFamily: F.sans,
-          fontSize: '0.55rem',
-          letterSpacing: '0.32em',
-          textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.35)',
-          writingMode: 'vertical-rl',
-        }}>
-          Scroll
-        </span>
+      {/* Scroll indicator — centre, ligne or qui pulse */}
+      <div style={{
+        position: 'absolute',
+        bottom: 0,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        paddingBottom: 32,
+      }}>
         <motion.div
-          animate={reduced ? {} : { scaleY: [0, 1, 0] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-          style={{
-            width: 1,
-            height: 44,
-            background: `linear-gradient(to bottom, rgba(255,255,255,0.45), transparent)`,
-            transformOrigin: 'top',
-          }}
-        />
-      </motion.div>
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3, duration: 1 }}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}
+        >
+          <span style={{
+            fontFamily: F.sans,
+            fontSize: '0.55rem',
+            letterSpacing: '0.32em',
+            textTransform: 'uppercase',
+            color: `${C.gold}70`,
+          }}>
+            Scroll
+          </span>
+          <motion.div
+            animate={reduced ? {} : { opacity: [0.2, 1, 0.2] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            style={{
+              width: 1,
+              height: 52,
+              background: C.gold,
+            }}
+          />
+        </motion.div>
+      </div>
     </section>
   );
 }
