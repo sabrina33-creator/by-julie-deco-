@@ -11,8 +11,6 @@ import imgCuisine2Av   from './cuisine derriere avant.jpeg';
 import imgCuisine2Ap   from './Cuisine derriere apres.jpeg';
 import imgSdbAv        from './SDB avant.png';
 import imgSdbAp        from './SDB apres.png';
-import imgSalonAv      from './Salon avant.png';
-import imgSalonAp      from './Salon apres.png';
 import imgPlaqueAv     from './cuisine plaque avant.png';
 import imgPlaqueAp     from './cuisine plaque apres.png';
 
@@ -369,11 +367,10 @@ function WhySection() {
 
 // ─── RÉALISATIONS ─────────────────────────────────────────────────────────────
 const REALISATIONS = [
-  { label: 'Cuisine',       avant: imgCuisineAv,  apres: imgCuisineAp  },
-  { label: 'Cuisine II',   avant: imgCuisine2Av, apres: imgCuisine2Ap },
-  { label: 'Salle de bain', avant: imgSdbAv,      apres: imgSdbAp      },
-  { label: 'Salon',         avant: imgSalonAv,    apres: imgSalonAp    },
-  { label: 'Cuisine III',   avant: imgPlaqueAv,   apres: imgPlaqueAp   },
+  { label: 'Salle de bain — Relooking complet',  avant: imgSdbAv,      apres: imgSdbAp      },
+  { label: 'Cuisine — Rénovation complète',       avant: imgCuisineAv,  apres: imgCuisineAp  },
+  { label: "Cuisine — Vue d'ensemble",            avant: imgCuisine2Av, apres: imgCuisine2Ap },
+  { label: 'Cuisine — Nouvelle crédence',         avant: imgPlaqueAv,   apres: imgPlaqueAp   },
 ];
 
 function RealisationsSection() {
@@ -410,12 +407,12 @@ function RealisationsSection() {
               </span>
               <h2 style={{
                 fontFamily: F.serif,
-                fontSize: 'clamp(2.2rem, 5vw, 4.2rem)',
+                fontSize: 'clamp(2.8rem, 6vw, 5.2rem)',
                 fontWeight: 300,
                 fontStyle: 'italic',
                 color: C.black,
-                lineHeight: 1.15,
-                letterSpacing: '-0.015em',
+                lineHeight: 1.1,
+                letterSpacing: '-0.02em',
                 margin: 0,
               }}>
                 Mes réalisations.
@@ -429,13 +426,13 @@ function RealisationsSection() {
             <Reveal key={r.label} delay={i * 0.09}>
               <div>
                 <p style={{
-                  fontFamily: F.sans,
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  color: C.muted,
+                  fontFamily: F.serif,
+                  fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
+                  fontStyle: 'italic',
+                  fontWeight: 300,
+                  color: C.black,
                   margin: '0 0 16px',
-                  fontWeight: 400,
+                  letterSpacing: '0',
                 }}>
                   {r.label}
                 </p>
@@ -453,7 +450,7 @@ function RealisationsSection() {
                       src={r.avant}
                       alt={`${r.label} — avant`}
                       loading="lazy"
-                      style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block' }}
+                      style={{ width: '100%', height: 'clamp(220px, 30vw, 440px)', objectFit: 'cover', display: 'block' }}
                     />
                     <span style={{
                       position: 'absolute',
@@ -477,7 +474,7 @@ function RealisationsSection() {
                       src={r.apres}
                       alt={`${r.label} — après`}
                       loading="lazy"
-                      style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block' }}
+                      style={{ width: '100%', height: 'clamp(220px, 30vw, 440px)', objectFit: 'cover', display: 'block' }}
                     />
                     <span style={{
                       position: 'absolute',
@@ -599,7 +596,7 @@ function FAQSection() {
 function CTASection() {
   return (
     <section style={{
-      padding: 'clamp(100px, 14vw, 180px) clamp(28px, 8vw, 120px)',
+      padding: 'clamp(50px, 7vw, 90px) clamp(28px, 8vw, 120px)',
       background: C.black,
       position: 'relative',
       overflow: 'hidden',
