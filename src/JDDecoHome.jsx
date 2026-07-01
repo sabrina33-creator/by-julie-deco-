@@ -77,7 +77,7 @@ function Hero() {
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: `url(${imgHero})`,
+          backgroundImage: `url("${imgHero}")`,
           backgroundSize: 'cover',
           backgroundPosition: 'center 38%',
         }}
