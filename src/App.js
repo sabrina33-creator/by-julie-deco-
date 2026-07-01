@@ -142,7 +142,7 @@ function Header() {
 
           {/* Logo */}
           <Link to="/" style={{ textDecoration: 'none', lineHeight: 1, display: 'flex', alignItems: 'center' }}>
-            <svg viewBox="0 0 290 110" width="140" height="53" xmlns="http://www.w3.org/2000/svg" style={{display:'block'}}>
+            <svg viewBox="0 0 290 110" width="168" height="64" xmlns="http://www.w3.org/2000/svg" style={{display:'block'}}>
               <text x="2" y="18" style={{fontFamily:"'DM Sans',sans-serif",fontWeight:200,fontSize:'11px',letterSpacing:'3px',fill:fg,transition:'fill 0.4s'}}>by</text>
               <text x="1" y="84" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,fontSize:'65px',letterSpacing:'7px',fill:fg,transition:'fill 0.4s'}}>JULIE</text>
               <line x1="0" y1="93" x2="290" y2="93" style={{stroke:'#C9A84C',strokeWidth:0.85}}/>

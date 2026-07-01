@@ -413,7 +413,7 @@ const REALISATIONS = [
 function RealisationsSection() {
   return (
     <section style={{
-      padding: 'clamp(88px, 13vw, 168px) clamp(28px, 8vw, 120px)',
+      padding: 'clamp(44px, 6.5vw, 84px) clamp(28px, 8vw, 120px)',
       background: C.white,
     }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
