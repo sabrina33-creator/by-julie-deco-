@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
+import { motion } from 'framer-motion';
 import { trackEvent } from './analytics';
 import JDDecoHome     from './JDDecoHome';
 import JDDecoServices from './JDDecoServices';
 import imgContactBanner from './Chambre lumiere.jpg';
 
 import { C, F } from './tokens';
+
+const ease = [0.22, 1, 0.36, 1];
 
 const WHATSAPP = "https://wa.me/33600000000?text=Bonjour%20By%20Julie%20D%C3%A9co%2C%20je%20souhaite%20en%20savoir%20plus.";
 const EMAIL    = "contact@by-julie-deco.fr";
@@ -109,7 +112,7 @@ function Header() {
   const [scrolled, setScrolled]   = useState(false);
   const [menuOpen, setMenuOpen]   = useState(false);
   const location = useLocation();
-  const isHome   = location.pathname === '/';
+  const hasHero = ['/', '/prestations', '/contact'].includes(location.pathname);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 56);
@@ -120,7 +123,7 @@ function Header() {
   // Ferme le menu mobile à chaque changement de route
   useEffect(() => setMenuOpen(false), [location.pathname]);
 
-  const solid = !isHome || scrolled;
+  const solid = !hasHero || scrolled;
   const fg    = solid ? C.black : C.white;
 
   return (
@@ -330,46 +333,81 @@ function PageContact() {
     <div style={{ background: C.white }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaContact) }} />
 
-      {/* Banner plein largeur */}
-      <div style={{
-        marginTop: 68,
-        width: '100%',
-        overflow: 'hidden',
-        height: '85vh',
-        position: 'relative',
-      }}>
-        <img
-          src={imgContactBanner}
-          alt="Ambiance By Julie Déco — Chambre"
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
-        />
-        <div style={{
-          position: 'absolute',
-          bottom: 0, left: 0, right: 0,
-          height: 1,
-          background: `linear-gradient(90deg, transparent, rgba(201,168,76,0.35) 30%, rgba(201,168,76,0.35) 70%, transparent)`,
-        }} />
-      </div>
+      {/* Hero plein écran */}
+      {(() => {
+        const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const words = ['Parlons', 'de', 'votre', 'projet'];
+        return (
+          <section style={{
+            position: 'relative',
+            height: '100svh',
+            minHeight: 640,
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+          }}>
+            <motion.div
+              initial={{ scale: 1.0 }}
+              animate={{ scale: 1.08 }}
+              transition={{ duration: 6, ease: 'linear' }}
+              style={{
+                position: 'absolute', inset: 0,
+                backgroundImage: `url("${imgContactBanner}")`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.35)' }} />
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(170deg, rgba(10,10,10,0.18) 0%, rgba(10,10,10,0.52) 55%, rgba(10,10,10,0.82) 100%)',
+            }} />
 
-      {/* En-tête */}
-      <section style={{
-        padding: 'clamp(52px, 7vw, 88px) clamp(28px, 8vw, 120px) clamp(60px, 8vw, 100px)',
-        background: C.white,
-        borderBottom: `1px solid rgba(10,10,10,0.07)`,
-      }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <FadeIn>
-            <h1 style={{
-              fontFamily: F.serif, fontSize: 'clamp(3rem, 7vw, 6.5rem)',
-              fontWeight: 300, fontStyle: 'italic', color: C.black,
-              lineHeight: 1.05, letterSpacing: '-0.02em', margin: 0,
+            <div style={{
+              position: 'relative', flex: 1,
+              display: 'flex', flexDirection: 'column',
+              alignItems: 'center', justifyContent: 'center',
+              textAlign: 'center',
+              padding: 'clamp(48px, 8vw, 100px)',
             }}>
-              Parlons de<br />votre projet
-            </h1>
-            <div style={{ marginTop: 40, height: 1, background: `linear-gradient(to right, ${C.gold}55, transparent 70%)` }} />
-          </FadeIn>
-        </div>
-      </section>
+              <h1 style={{
+                fontFamily: F.serif,
+                fontSize: 'clamp(3rem, 7vw, 6rem)',
+                fontWeight: 300,
+                fontStyle: 'italic',
+                color: C.white,
+                lineHeight: 1.1,
+                letterSpacing: '-0.015em',
+                margin: 0,
+              }}>
+                {words.map((word, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 60 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={reduced ? { duration: 0 } : { duration: 0.6, delay: 0.5 + i * 0.2, ease }}
+                    style={{ display: 'inline-block', marginRight: '0.28em' }}
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+              </h1>
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={reduced ? { duration: 0 } : { duration: 0.8, delay: 1.8, ease }}
+                style={{
+                  height: 1,
+                  background: C.gold,
+                  transformOrigin: 'center',
+                  width: 200,
+                  marginTop: 28,
+                }}
+              />
+            </div>
+          </section>
+        );
+      })()}
 
       {/* Cartes */}
       <section style={{

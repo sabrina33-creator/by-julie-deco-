@@ -74,76 +74,78 @@ const SERVICES = [
   },
 ];
 
-// ─── HEADER SECTION ───────────────────────────────────────────────────────────
-function PageHeader() {
+// ─── HERO SERVICES ────────────────────────────────────────────────────────────
+function HeroServices() {
+  const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const words = ['Mes', 'prestations'];
   return (
     <section style={{
-      padding: 'clamp(52px, 7vw, 88px) clamp(28px, 8vw, 120px) clamp(72px, 10vw, 120px)',
-      background: C.white,
-      borderBottom: `1px solid rgba(10,10,10,0.07)`,
+      position: 'relative',
+      height: '100svh',
+      minHeight: 640,
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
     }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr auto',
-          alignItems: 'flex-end',
-          gap: 40,
-        }} className="jd-header-grid">
+      <motion.div
+        initial={{ scale: 1.0 }}
+        animate={{ scale: 1.08 }}
+        transition={{ duration: 6, ease: 'linear' }}
+        style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: `url("${imgServicesBanner}")`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.35)' }} />
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(170deg, rgba(10,10,10,0.18) 0%, rgba(10,10,10,0.52) 55%, rgba(10,10,10,0.82) 100%)',
+      }} />
 
-          {/* Left — title */}
-          <Reveal>
-            <h1 style={{
-              fontFamily: F.serif,
-              fontSize: 'clamp(3rem, 7vw, 6rem)',
-              fontWeight: 300,
-              fontStyle: 'italic',
-              color: C.black,
-              lineHeight: 1.05,
-              letterSpacing: '-0.02em',
-              margin: 0,
-            }}>
-              Mes prestations
-            </h1>
-          </Reveal>
-
-          {/* Right — subtitle */}
-          <Reveal delay={0.15} style={{ paddingBottom: 8 }}>
-            <p style={{
-              fontFamily: F.sans,
-              fontSize: 'clamp(0.88rem, 1.2vw, 1rem)',
-              fontWeight: 300,
-              color: C.muted,
-              lineHeight: 1.75,
-              margin: 0,
-              maxWidth: 260,
-              textAlign: 'right',
-            }}>
-              Des formules claires,<br />des résultats concrets.
-            </p>
-          </Reveal>
-
-        </div>
-
-        {/* Thin gold rule */}
-        <Reveal delay={0.25}>
-          <div style={{
-            marginTop: 'clamp(40px, 6vw, 60px)',
+      <div style={{
+        position: 'relative', flex: 1,
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center',
+        textAlign: 'center',
+        padding: 'clamp(48px, 8vw, 100px)',
+      }}>
+        <h1 style={{
+          fontFamily: F.serif,
+          fontSize: 'clamp(3rem, 7vw, 6rem)',
+          fontWeight: 300,
+          fontStyle: 'italic',
+          color: C.white,
+          lineHeight: 1.1,
+          letterSpacing: '-0.015em',
+          margin: 0,
+        }}>
+          {words.map((word, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={reduced ? { duration: 0 } : { duration: 0.6, delay: 0.5 + i * 0.2, ease }}
+              style={{ display: 'inline-block', marginRight: '0.28em' }}
+            >
+              {word}
+            </motion.span>
+          ))}
+        </h1>
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={reduced ? { duration: 0 } : { duration: 0.8, delay: 1.8, ease }}
+          style={{
             height: 1,
-            background: `linear-gradient(to right, ${C.gold}55, transparent 70%)`,
-          }} />
-        </Reveal>
+            background: C.gold,
+            transformOrigin: 'center',
+            width: 200,
+            marginTop: 28,
+          }}
+        />
       </div>
-
-      <style>{`
-        @media (max-width: 600px) {
-          .jd-header-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .jd-header-grid > div:last-child p {
-            text-align: left !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }
@@ -589,27 +591,7 @@ export default function JDDecoServices() {
         #jd-root { -webkit-font-smoothing: antialiased; }
       `}</style>
       <div id="jd-root" style={{ background: C.cream, color: C.black, overflowX: 'hidden' }}>
-        {/* Banner plein largeur */}
-        <div style={{
-          marginTop: 68,
-          width: '100%',
-          overflow: 'hidden',
-          height: '85vh',
-          position: 'relative',
-        }}>
-          <img
-            src={imgServicesBanner}
-            alt="Ambiance By Julie Déco — Salon"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
-          />
-          <div style={{
-            position: 'absolute',
-            bottom: 0, left: 0, right: 0,
-            height: 1,
-            background: `linear-gradient(90deg, transparent, rgba(201,168,76,0.35) 30%, rgba(201,168,76,0.35) 70%, transparent)`,
-          }} />
-        </div>
-        <PageHeader />
+        <HeroServices />
         <ServicesGrid />
         <CTASection />
       </div>

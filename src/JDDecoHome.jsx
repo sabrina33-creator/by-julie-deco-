@@ -220,40 +220,6 @@ function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator — centre, ligne or qui pulse */}
-      <div style={{
-        position: 'absolute',
-        bottom: 0,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        paddingBottom: 32,
-      }}>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 3, duration: 1 }}
-          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}
-        >
-          <span style={{
-            fontFamily: F.sans,
-            fontSize: '0.55rem',
-            letterSpacing: '0.32em',
-            textTransform: 'uppercase',
-            color: `${C.gold}70`,
-          }}>
-            Scroll
-          </span>
-          <motion.div
-            animate={reduced ? {} : { opacity: [0.2, 1, 0.2] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-            style={{
-              width: 1,
-              height: 52,
-              background: C.gold,
-            }}
-          />
-        </motion.div>
-      </div>
     </section>
   );
 }
