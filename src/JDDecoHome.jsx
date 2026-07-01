@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { trackEvent } from './analytics';
+import imgHero         from './new hero.jpg';
 import imgSurMesure    from './salon canape design.jpg';
 import imgBudget       from './Cuisine blanchebeige.jpg';
 import imgDurable      from './Salon beige.jpg';
@@ -76,7 +77,7 @@ function Hero() {
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: "url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=80')",
+          backgroundImage: `url(${imgHero})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center 38%',
         }}
