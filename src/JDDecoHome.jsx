@@ -71,8 +71,8 @@ function Hero() {
       {/* Background image — slow Ken Burns zoom in */}
       <motion.div
         initial={{ scale: 1.0 }}
-        animate={{ scale: 1.05 }}
-        transition={{ duration: 8, ease: 'linear' }}
+        animate={{ scale: 1.08 }}
+        transition={{ duration: 6, ease: 'linear' }}
         style={{
           position: 'absolute',
           inset: 0,
@@ -82,7 +82,10 @@ function Hero() {
         }}
       />
 
-      {/* Gradient veil */}
+      {/* Overlay sombre uniforme */}
+      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.35)' }} />
+
+      {/* Gradient veil directionnel */}
       <div style={{
         position: 'absolute',
         inset: 0,
@@ -129,15 +132,29 @@ function Hero() {
           {["L'œil", 'déco', "qu'il", 'vous', 'manquait.'].map((word, i) => (
             <motion.span
               key={i}
-              initial={{ opacity: 0, y: 28 }}
+              initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={reduced ? { duration: 0 } : { duration: 0.65, delay: 0.5 + i * 0.15, ease }}
+              transition={reduced ? { duration: 0 } : { duration: 0.6, delay: 0.5 + i * 0.2, ease }}
               style={{ display: 'inline-block', marginRight: '0.28em' }}
             >
               {word}
             </motion.span>
           ))}
         </h1>
+
+        {/* Ligne or — s'étire de gauche à droite après le titre */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={reduced ? { duration: 0 } : { duration: 0.8, delay: 2.0, ease }}
+          style={{
+            height: 1,
+            background: C.gold,
+            transformOrigin: 'left',
+            maxWidth: 260,
+            marginBottom: 'clamp(20px, 3vw, 32px)',
+          }}
+        />
 
         {/* Sous-titre + CTA */}
         <div style={{
@@ -149,7 +166,7 @@ function Hero() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={reduced ? { duration: 0 } : { duration: 1.0, delay: 1.8, ease }}
+            transition={reduced ? { duration: 0 } : { duration: 1.0, delay: 2.3, ease }}
             style={{
               fontFamily: F.sans,
               fontSize: 'clamp(0.88rem, 1.2vw, 1rem)',
@@ -164,12 +181,16 @@ function Hero() {
             Je m'en charge, à distance, dans votre budget.
           </motion.p>
 
-          {/* CTA — rebond au chargement */}
+          {/* CTA — entrée spring puis pulse boucle 3s */}
           <motion.div
             initial={{ opacity: 0, scale: 0.82 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={reduced ? { duration: 0 } : { type: 'spring', stiffness: 340, damping: 18, delay: 2.3 }}
+            transition={reduced ? { duration: 0 } : { type: 'spring', stiffness: 340, damping: 18, delay: 2.8 }}
           >
+            <motion.div
+              animate={reduced ? {} : { scale: [1, 1.03, 1] }}
+              transition={{ duration: 0.6, delay: 3.8, repeat: Infinity, repeatDelay: 2.4, ease: 'easeInOut' }}
+            >
             <motion.a
               href="#prestations"
               onClick={() => trackEvent('cta_clicked', { location: 'hero', button_text: 'Découvrir les prestations' })}
@@ -193,6 +214,7 @@ function Hero() {
             >
               Découvrir les prestations
             </motion.a>
+            </motion.div>
           </motion.div>
         </div>
       </div>
