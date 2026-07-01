@@ -10,6 +10,10 @@ import imgCuisine2Av   from './cuisine derriere avant.jpeg';
 import imgCuisine2Ap   from './Cuisine derriere apres.jpeg';
 import imgSdbAv        from './SDB avant.png';
 import imgSdbAp        from './SDB apres.png';
+import imgSalonAv      from './Salon avant.png';
+import imgSalonAp      from './Salon apres.png';
+import imgPlaqueAv     from './cuisine plaque avant.png';
+import imgPlaqueAp     from './cuisine plaque apres.png';
 
 import { C, F } from './tokens';
 
@@ -366,8 +370,10 @@ function WhySection() {
 // ─── RÉALISATIONS ─────────────────────────────────────────────────────────────
 const REALISATIONS = [
   { label: 'Cuisine',       avant: imgCuisineAv,  apres: imgCuisineAp  },
-  { label: 'Cuisine II',    avant: imgCuisine2Av, apres: imgCuisine2Ap },
+  { label: 'Cuisine II',   avant: imgCuisine2Av, apres: imgCuisine2Ap },
   { label: 'Salle de bain', avant: imgSdbAv,      apres: imgSdbAp      },
+  { label: 'Salon',         avant: imgSalonAv,    apres: imgSalonAp    },
+  { label: 'Cuisine III',   avant: imgPlaqueAv,   apres: imgPlaqueAp   },
 ];
 
 function RealisationsSection() {
